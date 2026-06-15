@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-slate-50">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prarambha Strategy & Marketing Admin - Login</title>
+    <!-- Google Fonts: Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Outfit', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            red: '#C20E22',
+                            redDark: '#9F0B1A',
+                            blue: '#1E5AD6',
+                            purple: '#7534D4',
+                            magenta: '#C929CC'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom styles for animations and aesthetics */
+        .glass-shadow {
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.08);
+        }
+        @keyframes pulse-slow {
+            0%, 100% { transform: scale(1); opacity: 0.4; }
+            50% { transform: scale(1.05); opacity: 0.6; }
+        }
+        .animate-pulse-slow {
+            animation: pulse-slow 8s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+    </style>
+</head>
+<body class="h-full flex items-center justify-center p-4 relative overflow-hidden font-sans antialiased text-slate-800 bg-slate-50/70">
+    
+    <!-- Background decorations -->
+    <div class="absolute inset-0 w-full h-full overflow-hidden z-0 pointer-events-none">
+        <div class="absolute top-[-20%] left-[-10%] w-[60%] h-[60%] bg-blue-100/50 rounded-full blur-[120px] animate-pulse-slow"></div>
+        <div class="absolute bottom-[-20%] right-[-10%] w-[60%] h-[60%] bg-purple-100/50 rounded-full blur-[120px] animate-pulse-slow" style="animation-delay: 2s;"></div>
+    </div>
+
+    <!-- Login Container -->
+    <div class="relative z-10 w-full max-w-md bg-white border border-slate-200/80 rounded-3xl p-8 shadow-xl glass-shadow">
+        
+        <!-- Logo and Header -->
+        <div class="mb-8 text-center">
+            <div class="relative w-48 h-24 mx-auto mb-4 flex items-center justify-center">
+                <!-- Brand logo from images/Prarambha Logo.png -->
+                <img 
+                    src="../images/Prarambha Logo.png" 
+                    alt="Prarambha Logo" 
+                    class="max-h-full max-w-full object-contain hover:scale-105 transition-transform duration-300"
+                    id="brand-logo"
+                    onerror="handleLogoError()"
+                />
+                <!-- Fallback Logo if image fails to load -->
+                <div id="fallback-logo" class="hidden w-20 h-20 bg-gradient-to-tr from-brand-blue to-brand-purple rounded-2xl flex items-center justify-center shadow-lg">
+                    <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                    </svg>
+                </div>
+            </div>
+            
+            <!-- Brand Text with beautiful gradient -->
+            <h1 class="text-3xl font-black bg-gradient-to-r from-brand-blue via-brand-purple to-brand-magenta bg-clip-text text-transparent tracking-tight">
+                PRARAMBHA
+            </h1>
+            <p class="text-slate-400 mt-1.5 text-xs font-bold uppercase tracking-wider">Strategy & Marketing Admin</p>
+        </div>
+
+        <!-- Error Alert Banner -->
+        <div id="error-banner" class="hidden mb-5 p-3.5 bg-red-50 border border-red-200 text-[#C20E22] text-sm rounded-xl flex items-center justify-center gap-2 font-semibold animate-in fade-in duration-200">
+            <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+            </svg>
+            <span id="error-message">Invalid credentials</span>
+        </div>
+
+        <!-- Login Form -->
+        <form id="login-form" class="space-y-5" onsubmit="handleLogin(event)">
+            <!-- Email Field -->
+            <div>
+                <label class="block text-sm font-bold text-slate-600 mb-1.5" for="email">
+                    Email Address
+                </label>
+                <div class="relative">
+                    <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                        <!-- Mail Icon -->
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                        </svg>
+                    </span>
+                    <input
+                        id="email"
+                        type="email"
+                        required
+                        class="w-full bg-slate-50 border border-slate-200 text-slate-900 rounded-2xl pl-11 pr-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-brand-red focus:border-transparent transition-all placeholder:text-slate-400 font-medium"
+                        placeholder="admin@gmail.com"
+                    />
+                </div>
+            </div>
+
+            <!-- Password Field -->
+            <div>
+                <div class="flex justify-between items-center mb-1.5">
+                    <label class="block text-sm font-bold text-slate-600" for="password">
+                        Password
+                    </label>
+                    <a href="#" class="text-xs font-bold text-brand-red hover:text-brand-redDark transition-colors">Forgot password?</a>
+                </div>
+                <div class="relative">
+                    <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                        <!-- Lock Icon -->
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                        </svg>
+                    </span>
+                    <input
+                        id="password"
+                        type="password"
+                        required
+                        class="w-full bg-slate-50 border border-slate-200 text-slate-900 rounded-2xl pl-11 pr-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-brand-red focus:border-transparent transition-all placeholder:text-slate-400 font-medium"
+                        placeholder="••••••••"
+                    />
+                </div>
+            </div>
+            
+            <!-- Submit Button -->
+            <button
+                type="submit"
+                id="submit-btn"
+                class="w-full relative flex justify-center items-center gap-2 bg-brand-red hover:bg-brand-redDark text-white font-bold py-3.5 px-4 rounded-2xl shadow-md transition-all transform hover:scale-[1.01] active:scale-[0.99] mt-6"
+            >
+                <!-- Login Icon -->
+                <svg id="btn-icon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path>
+                </svg>
+                
+                <!-- Spinner (hidden initially) -->
+                <svg id="btn-spinner" class="hidden animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                
+                <span id="btn-text">Sign In</span>
+            </button>
+        </form>
+    </div>
+
+    <script>
+        // Check if already logged in, redirect to dashboard directly
+        if (localStorage.getItem('isAdminLoggedIn') === 'true') {
+            window.location.href = 'dashboard.html';
+        }
+
+        // Handle logo image error to show the fallback SVG block
+        function handleLogoError() {
+            document.getElementById('brand-logo').style.display = 'none';
+            document.getElementById('fallback-logo').classList.remove('hidden');
+        }
+
+        // Login Logic
+        function handleLogin(event) {
+            event.preventDefault();
+            
+            const emailInput = document.getElementById('email').value.trim();
+            const passwordInput = document.getElementById('password').value;
+            const errorBanner = document.getElementById('error-banner');
+            const errorMessage = document.getElementById('error-message');
+            
+            const submitBtn = document.getElementById('submit-btn');
+            const btnIcon = document.getElementById('btn-icon');
+            const btnSpinner = document.getElementById('btn-spinner');
+            const btnText = document.getElementById('btn-text');
+
+            // Reset error banner
+            errorBanner.classList.add('hidden');
+
+            // Show Loading State
+            submitBtn.disabled = true;
+            btnIcon.classList.add('hidden');
+            btnSpinner.classList.remove('hidden');
+            btnText.textContent = 'Verifying...';
+
+            // Simulate slight latency for premium feel
+            setTimeout(() => {
+                if (emailInput === 'admin@gmail.com' && passwordInput === '123456') {
+                    // Success!
+                    localStorage.setItem('isAdminLoggedIn', 'true');
+                    window.location.href = 'dashboard.html';
+                } else {
+                    // Invalid Credentials
+                    errorMessage.textContent = 'Invalid email or password';
+                    errorBanner.classList.remove('hidden');
+                    
+                    // Reset Button State
+                    submitBtn.disabled = false;
+                    btnSpinner.classList.add('hidden');
+                    btnIcon.classList.remove('hidden');
+                    btnText.textContent = 'Sign In';
+                }
+            }, 600);
+        }
+    </script>
+</body>
+</html>

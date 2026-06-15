@@ -1,0 +1,2082 @@
+<!DOCTYPE html>
+<html lang="mr" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Media Addict Studio | Performance Marketing Agency</title>
+
+    <!-- Google Fonts: Roboto -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#FFFFFF', // Pure white canvas
+                        accent: '#2563EB', // Blue accent
+                        'accent-light': '#60A5FA', // Vibrant light blue
+                        card: '#FFFFFF', // Light card background
+                        'card-border': '#F3F4F6',
+                    },
+                    fontFamily: {
+                        sans: ['Roboto', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'neon-accent': '0 0 25px rgba(37, 99, 235, 0.12)',
+                        'neon-cta': '0 10px 30px rgba(37, 99, 235, 0.25)', // Blue Neon glow
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Infinite Marquee Animations */
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        .animate-marquee {
+            animation: marquee 25s linear infinite;
+        }
+        .mask-gradient-x {
+            mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+            -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+        }
+
+        /* Success Checkmark Animations */
+        @keyframes draw-checkmark {
+            to { stroke-dashoffset: 0; }
+        }
+        .checkmark-path {
+            stroke-dasharray: 100;
+            stroke-dashoffset: 100;
+            animation: draw-checkmark 0.8s ease-in-out forwards;
+        }
+        @keyframes scale-checkmark {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        .checkmark-circle {
+            animation: scale-checkmark 0.4s ease-out 0.8s;
+        }
+
+        /* Shimmer text effect */
+        .shimmer-text {
+            background: linear-gradient(90deg, #2563EB 0%, #FFFFFF 50%, #2563EB 100%);
+            background-size: 200% auto;
+            color: transparent;
+            background-clip: text;
+            -webkit-background-clip: text;
+            animation: shine 2.5s linear infinite;
+        }
+        .dark .shimmer-text {
+            background: linear-gradient(90deg, #ffffff 0%, #2563EB 50%, #ffffff 100%);
+            background-size: 200% auto;
+            color: transparent;
+            background-clip: text;
+            -webkit-background-clip: text;
+            animation: shine 2.5s linear infinite;
+        }
+        @keyframes shine {
+            to {
+                background-position: 200% center;
+            }
+        }
+        
+        /* Swipe knob pulsing glow */
+        #swipe-knob::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            border-radius: 50%;
+            border: 2px solid #2563EB;
+            animation: pulse-ring 1.8s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+            z-index: -1;
+            pointer-events: none;
+        }
+        @keyframes pulse-ring {
+            0% { transform: scale(0.95); opacity: 0.8; }
+            50% { transform: scale(1.3); opacity: 0; }
+            100% { transform: scale(0.95); opacity: 0; }
+        }
+
+        .knob-snap {
+            transition: transform 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+        }
+
+        /* Default: Light Mode Theme variables */
+        :root {
+            --bg-color: #F8FAFC;            /* Premium slate off-white background */
+            --grid-line: rgba(37, 99, 235, 0.012);
+            --text-main: #0F172A;           /* Slate 900: premium deep dark slate instead of flat black */
+            --text-muted: #475569;          /* Slate 600: legible grey for body copy */
+            --card-bg: #FFFFFF;
+            --card-border: rgba(37, 99, 235, 0.06);
+            --badge-bg: rgba(37, 99, 235, 0.04);
+            --badge-border: rgba(37, 99, 235, 0.1);
+            --badge-text: #2563EB;
+            --problem-bg: #EFF6FF;
+            --compare-bg: #FFFFFF;
+            --warp-bg: #EFF6FF;
+        }
+
+        /* Dark Mode Theme overrides when .dark is present */
+        .dark {
+            --bg-color: #030712;            /* Ultra-premium dark carbon-blue bg */
+            --grid-line: rgba(255, 255, 255, 0.01);
+            --text-main: #F8FAFC;           /* Slate 50 */
+            --text-muted: #94A3B8;          /* Slate 400 */
+            --card-bg: rgba(15, 23, 42, 0.75); /* Dark blue-glass card */
+            --card-border: rgba(37, 99, 235, 0.15);
+            --badge-bg: rgba(37, 99, 235, 0.1);
+            --badge-border: rgba(37, 99, 235, 0.2);
+            --badge-text: #93C5FD;          /* Rose 300 */
+            --problem-bg: rgba(30, 41, 59, 0.5);
+            --compare-bg: #030712;
+            --warp-bg: rgba(30, 41, 59, 0.4);
+        }
+
+        html, body {
+            overflow-x: hidden;
+            max-width: 100%;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            background-image:
+                linear-gradient(var(--grid-line) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+            background-size: 50px 50px;
+            color: var(--text-main);
+            transition: background-color 0.3s ease, color 0.3s ease, background-image 0.3s ease;
+        }
+
+        .glass-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--card-border);
+            transition: background 0.3s ease, border 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        /* Universal text overrides based on theme class for premium slate-graded hierarchy */
+        html body,
+        html h1:not(.gradient-text),
+        html h2:not(.gradient-text),
+        html h3:not(.gradient-text),
+        html h4:not(.gradient-text),
+        html h5:not(.gradient-text),
+        html h6:not(.gradient-text),
+        html strong,
+        html .theme-text-main {
+            color: var(--text-main) !important;
+        }
+
+        html p,
+        html li,
+        html span:not(.gradient-text):not(.bg-white):not(.text-white):not(.text-black):not(.price-style):not(.text-accent):not(.text-emerald-400):not(.text-emerald-200):not(.text-red-400):not(.text-purple-200):not(.text-purple-400):not(.text-gray-400):not(.text-gray-300):not(.text-slate-400):not(.text-slate-500),
+        html .theme-text-muted {
+            color: var(--text-muted) !important;
+        }
+
+        /* Force always-dark elements to remain dark in both light and dark modes */
+        .always-dark {
+            background-color: #030712 !important;
+            background-image:
+                linear-gradient(rgba(255, 255, 255, 0.01) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.01) 1px, transparent 1px) !important;
+            background-size: 50px 50px !important;
+            border-color: rgba(255, 255, 255, 0.08) !important;
+        }
+
+        .always-dark h1:not(.gradient-text),
+        .always-dark h2:not(.gradient-text),
+        .always-dark h3:not(.gradient-text),
+        .always-dark h4:not(.gradient-text),
+        .always-dark h5:not(.gradient-text),
+        .always-dark h6:not(.gradient-text),
+        .always-dark strong {
+            color: #F8FAFC !important;
+        }
+
+        .always-dark p,
+        .always-dark li,
+        .always-dark span:not(.gradient-text):not(.bg-white):not(.text-accent):not(.text-black):not(.text-emerald-400):not(.text-red-400):not(.text-purple-200):not(.text-emerald-200):not(.text-purple-400),
+        .always-dark .theme-text-main {
+            color: #94A3B8 !important;
+        }
+
+        .always-dark p,
+        html:not(.dark) .always-dark p {
+            color: #94A3B8 !important;
+        }
+
+        .always-dark .glass-card {
+            background: rgba(15, 23, 42, 0.75) !important;
+            border: 1px solid rgba(255, 255, 255, 0.08) !important;
+        }
+
+        .theme-text-main {
+            transition: color 0.3s ease;
+        }
+
+        .theme-text-muted {
+            transition: color 0.3s ease;
+        }
+
+        .gradient-text {
+            background: linear-gradient(90deg, #2563EB 0%, #F43F5E 50%, #9F1239 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .gradient-btn {
+            background-color: #2563EB !important;
+            background-image: none !important;
+            color: #ffffff !important;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .gradient-btn:hover {
+            background-color: #A50021 !important;
+            background-image: none !important;
+            box-shadow: 0 10px 30px rgba(37, 99, 235, 0.45);
+            transform: translateY(-2px);
+        }
+
+        .fluid-hero-text {
+            font-size: clamp(1.1rem, 5.5vw, 1.85rem);
+        }
+
+        .price-style {
+            font-family: 'Roboto', sans-serif !important;
+            font-weight: 900 !important;
+            display: inline-block !important;
+        }
+
+        @media (min-width: 1024px) {
+            .fluid-hero-text {
+                font-size: 1.95rem;
+            }
+        }
+
+        @media (min-width: 1280px) {
+            .fluid-hero-text {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (min-width: 1536px) {
+            .fluid-hero-text {
+                font-size: 3.0rem;
+            }
+        }
+
+        .cta-button {
+            transition: all 0.3s ease;
+        }
+
+        .cta-button:hover .cta-icon {
+            transform: translateX(4px);
+        }
+
+        @keyframes infinite-scroll {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        .animate-infinite-scroll {
+            display: flex;
+            width: max-content;
+            animation: infinite-scroll 80s linear infinite;
+        }
+
+        .animate-infinite-scroll:hover {
+            animation-play-state: paused;
+        }
+
+        /* ============================================
+           ALTERNATING SECTION COLOURS — LIGHT MODE
+           Odd sections = premium off-white bg + graded dark text
+           Even sections = midnight bg + graded white text
+           always-dark stays black in BOTH modes
+           Dark mode: all sections stay dark (overridden by html.dark)
+        ============================================ */
+
+        /* Light-mode off-white section */
+        html:not(.dark) .section-light {
+            background-color: #F8FAFC !important;
+            background-image:
+                linear-gradient(rgba(0, 0, 0, 0.015) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 0, 0, 0.015) 1px, transparent 1px) !important;
+            background-size: 50px 50px !important;
+        }
+
+        html:not(.dark) .section-light h1:not(.gradient-text),
+        html:not(.dark) .section-light h2:not(.gradient-text),
+        html:not(.dark) .section-light h3:not(.gradient-text),
+        html:not(.dark) .section-light h4:not(.gradient-text),
+        html:not(.dark) .section-light h5:not(.gradient-text),
+        html:not(.dark) .section-light h6:not(.gradient-text),
+        html:not(.dark) .section-light strong {
+            color: var(--text-main) !important;
+        }
+
+        html:not(.dark) .section-light p,
+        html:not(.dark) .section-light li,
+        html:not(.dark) .section-light span:not(.gradient-text):not(.text-accent):not(.text-emerald-400):not(.text-red-400):not(.text-purple-200):not(.text-emerald-200):not(.text-purple-400):not(.text-white):not(.text-black):not(.price-style) {
+            color: var(--text-muted) !important;
+        }
+
+        /* Protect compare cards from light mode force-black */
+        html:not(.dark) .section-light .compare-card h3,
+        html:not(.dark) .section-light .compare-card li,
+        html:not(.dark) .section-light .compare-card .absolute,
+        .compare-card h3,
+        .compare-card li,
+        .compare-card .absolute {
+            color: #F8FAFC !important;
+        }
+
+        .compare-card li {
+            font-weight: 700 !important;
+        }
+
+        html:not(.dark) .section-light .glass-card {
+            background: #FFFFFF !important;
+            border: 1px solid rgba(37, 99, 235, 0.06) !important;
+            box-shadow: 0 10px 30px -10px rgba(0,0,0,0.03) !important;
+        }
+
+        /* Make dark inner cards light in section-light */
+        html:not(.dark) .section-light [class*="bg-slate-950"] {
+            background-color: rgba(241, 245, 249, 0.8) !important;
+        }
+
+        html:not(.dark) .section-light [class*="border-slate-800"] {
+            border-color: rgba(0, 0, 0, 0.08) !important;
+        }
+
+        html:not(.dark) .section-light .text-gray-400,
+        html:not(.dark) .section-light .text-gray-300 {
+            color: #475569 !important;
+        }
+
+        /* Light-mode black section */
+        html:not(.dark) .section-dark {
+            background-color: #030712 !important;
+            background-image:
+                linear-gradient(rgba(255, 255, 255, 0.01) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.01) 1px, transparent 1px) !important;
+            background-size: 50px 50px !important;
+            border-color: rgba(255, 255, 255, 0.08) !important;
+        }
+
+        html:not(.dark) .section-dark h1:not(.gradient-text),
+        html:not(.dark) .section-dark h2:not(.gradient-text),
+        html:not(.dark) .section-dark h3:not(.gradient-text),
+        html:not(.dark) .section-dark h4:not(.gradient-text),
+        html:not(.dark) .section-dark h5:not(.gradient-text),
+        html:not(.dark) .section-dark h6:not(.gradient-text),
+        html:not(.dark) .section-dark strong {
+            color: #F8FAFC !important;
+        }
+
+        html:not(.dark) .section-dark p,
+        html:not(.dark) .section-dark li,
+        html:not(.dark) .section-dark span:not(.gradient-text):not(.text-accent):not(.text-black):not(.text-emerald-400):not(.text-red-400):not(.text-purple-200):not(.text-emerald-200):not(.text-purple-400) {
+            color: #94A3B8 !important;
+        }
+
+        html:not(.dark) .section-dark p,
+        html:not(.dark) .section-dark .text-gray-400,
+        html:not(.dark) .section-dark .text-gray-300,
+        html:not(.dark) .section-dark .text-gray-200,
+        html:not(.dark) .section-dark .text-gray-500 {
+            color: #94A3B8 !important;
+        }
+
+        html:not(.dark) .section-dark .glass-card {
+            background: rgba(15, 23, 42, 0.75) !important;
+            border: 1px solid rgba(255, 255, 255, 0.08) !important;
+        }
+
+        /* intl-tel-input integration overrides */
+        .iti {
+            width: 100% !important;
+            display: block !important;
+        }
+        .iti__country-list {
+            background-color: var(--bg-color) !important;
+            border: 1px solid var(--card-border) !important;
+            color: var(--text-main) !important;
+            border-radius: 12px !important;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15) !important;
+            z-index: 100 !important;
+            padding: 8px !important;
+        }
+        .iti__country {
+            padding: 8px 12px !important;
+            font-size: 14px !important;
+            border-radius: 8px !important;
+            transition: background-color 0.2s !important;
+        }
+        .iti__country:hover, .iti__country.iti__highlight {
+            background-color: rgba(37, 99, 235, 0.08) !important;
+            color: var(--text-main) !important;
+        }
+        .iti__selected-flag {
+            border-top-left-radius: 12px !important;
+            border-bottom-left-radius: 12px !important;
+            background-color: transparent !important;
+            padding-left: 14px !important;
+        }
+        .dark .iti__country-list {
+            background-color: #0f172a !important; /* dark mode dropdown */
+            border-color: rgba(255, 255, 255, 0.08) !important;
+        }
+        .iti__search-input {
+            width: 100% !important;
+            border: 1px solid var(--card-border) !important;
+            background-color: var(--bg-color) !important;
+            color: var(--text-main) !important;
+            border-radius: 8px !important;
+            padding: 8px 12px !important;
+            font-size: 14px !important;
+            margin-bottom: 8px !important;
+            outline: none !important;
+        }
+        .dark .iti__search-input {
+            background-color: #0d0e12 !important;
+            border-color: rgba(255, 255, 255, 0.1) !important;
+            color: #ffffff !important;
+        }
+        .iti__selected-dial-code {
+            color: var(--text-main) !important;
+            font-weight: 600 !important;
+            font-size: 14px !important;
+            margin-left: 6px !important;
+        }
+    </style>
+    <!-- intl-tel-input CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/19.2.4/css/intlTelInput.css">
+</head>
+<body class="antialiased pb-24">
+
+    <!-- Top Notice Bar -->
+    <div class="w-full py-2 bg-accent text-white text-center font-black text-xs md:text-sm tracking-wide z-50 sticky top-0 shadow-sm">
+        <i class="fa-solid fa-rocket text-yellow-300 animate-bounce mr-1.5"></i> Performance Marketing द्वारे तुमचा व्यवसाय वेगाने वाढवा
+    </div>
+
+    <!-- Header / Navbar -->
+    <header class="w-full bg-white/95 dark:bg-[#030712]/95 backdrop-blur-md border-b border-gray-200 dark:border-accent/10 py-3 transition-colors duration-300">
+        <div class="container mx-auto px-4 max-w-7xl flex items-center justify-between">
+            <a href="#" class="flex items-center">
+                <img src="images/Media%20Addict%20logo%20png.png" alt="Media Addict Logo" class="h-10 sm:h-12 md:h-14 object-contain">
+            </a>
+            
+            <div class="flex items-center gap-4">
+                <a href="tel:9850986409" class="hidden sm:inline-flex items-center gap-1.5 text-sm md:text-base font-black text-gray-700 dark:text-gray-200 hover:text-accent transition-colors">
+                    <i class="fa-solid fa-phone text-accent"></i> 9850986409
+                </a>
+                <a href="#" onclick="openModal(event)" class="bg-accent hover:bg-accent/90 text-white font-bold text-xs sm:text-sm px-4 sm:px-5 py-2.5 rounded-full shadow-neon-cta transition-all duration-300 hover:-translate-y-0.5">
+                    Free Audit Call
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section (1 – WHITE) -->
+    <section class="section-light container mx-auto px-4 py-12 lg:py-20 max-w-5xl text-center flex flex-col items-center">
+        
+        <!-- Badge -->
+        <div class="hero-badge inline-flex items-center gap-2 bg-accent/5 px-4 py-2 rounded-full border border-accent/10 mb-6">
+            <span class="text-accent text-lg"><i class="fa-solid fa-bullseye"></i></span>
+            <span class="text-sm font-semibold tracking-wide text-accent">Leads नाही, तर Revenue वाढवणे हेच आमचे ध्येय आहे.</span>
+        </div>
+
+        <!-- Heading -->
+        <h1 class="fluid-hero-text font-black leading-tight max-w-4xl text-center">
+            <span class="hero-title-line block theme-text-main">Performance Marketing द्वारे</span>
+            <span class="hero-title-line relative block mt-1">
+                <span class="gradient-text">तुमचा व्यवसाय वेगाने वाढवा</span>
+            </span>
+        </h1>
+
+        <!-- Paragraphs (Grid) -->
+        <div class="hero-para text-base md:text-lg leading-relaxed grid grid-cols-1 md:grid-cols-2 gap-6 mt-8 max-w-4xl text-left w-full">
+            <p class="theme-text-muted font-bold border border-accent/30 bg-accent/5 rounded-xl p-5 shadow-sm">
+                Facebook आणि Instagram Ads च्या मदतीने तुमच्या व्यवसायासाठी अधिक Leads, अधिक Sales and दीर्घकालीन Growth निर्माण करा.
+            </p>
+            <p class="theme-text-muted text-sm md:text-base border border-accent/30 bg-accent/5 rounded-xl p-5 shadow-sm flex items-center">
+                आम्ही फक्त Ads Run करत नाही, तर संपूर्ण Performance Marketing Strategy, Tracking आणि Optimization द्वारे तुमच्या व्यवसायाला पुढील स्तरावर घेऊन जातो.
+            </p>
+        </div>
+
+        <!-- Value Props Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 pt-8 w-full max-w-4xl text-left">
+            <div class="hero-prop flex items-center gap-2.5 bg-white dark:bg-slate-900/40 p-4 rounded-xl border border-slate-100 dark:border-slate-800 shadow-sm transition-all duration-300 hover:shadow-md hover:border-accent/15">
+                <i class="fa-solid fa-circle-check text-accent text-lg"></i>
+                <span class="text-sm font-bold theme-text-main">Meta Ads Management</span>
+            </div>
+            <div class="hero-prop flex items-center gap-2.5 bg-white dark:bg-slate-900/40 p-4 rounded-xl border border-slate-100 dark:border-slate-800 shadow-sm transition-all duration-300 hover:shadow-md hover:border-accent/15">
+                <i class="fa-solid fa-circle-check text-accent text-lg"></i>
+                <span class="text-sm font-bold theme-text-main">Lead Generation Campaigns</span>
+            </div>
+            <div class="hero-prop flex items-center gap-2.5 bg-white dark:bg-slate-900/40 p-4 rounded-xl border border-slate-100 dark:border-slate-800 shadow-sm transition-all duration-300 hover:shadow-md hover:border-accent/15">
+                <i class="fa-solid fa-circle-check text-accent text-lg"></i>
+                <span class="text-sm font-bold theme-text-main">Ecommerce Growth Campaigns</span>
+            </div>
+            <div class="hero-prop flex items-center gap-2.5 bg-white dark:bg-slate-900/40 p-4 rounded-xl border border-slate-100 dark:border-slate-800 shadow-sm transition-all duration-300 hover:shadow-md hover:border-accent/15">
+                <i class="fa-solid fa-circle-check text-accent text-lg"></i>
+                <span class="text-sm font-bold theme-text-main">Landing Page Development</span>
+            </div>
+            <div class="hero-prop flex items-center gap-2.5 bg-white dark:bg-slate-900/40 p-4 rounded-xl border border-slate-100 dark:border-slate-800 shadow-sm transition-all duration-300 hover:shadow-md hover:border-accent/15">
+                <i class="fa-solid fa-circle-check text-accent text-lg"></i>
+                <span class="text-sm font-bold theme-text-main">Meta Pixel & Conversion API Setup</span>
+            </div>
+            <div class="hero-prop flex items-center gap-2.5 bg-white dark:bg-slate-900/40 p-4 rounded-xl border border-slate-100 dark:border-slate-800 shadow-sm transition-all duration-300 hover:shadow-md hover:border-accent/15">
+                <i class="fa-solid fa-circle-check text-accent text-lg"></i>
+                <span class="text-sm font-bold theme-text-main">Conversion Tracking & Analytics</span>
+            </div>
+        </div>
+
+        <!-- CTA Buttons -->
+        <div class="pt-8 flex flex-col sm:flex-row gap-4 justify-center">
+            <a href="#" onclick="openModal(event)"
+                class="hero-btn group relative inline-flex items-center justify-between bg-accent text-black rounded-full overflow-hidden shadow-neon-cta hover:shadow-[0_0_30px_rgba(37, 99, 235,0.4)] px-6 py-3 transition-all duration-300 transform hover:-translate-y-1 font-bold text-base">
+                <span class="text-black"><i class="fa-solid fa-calendar-check mr-2"></i> Book Free Consultation Call</span>
+            </a>
+            <a href="https://wa.me/9850986409" target="_blank"
+                class="hero-btn group relative inline-flex items-center justify-between bg-emerald-600 text-black rounded-full overflow-hidden shadow-md hover:shadow-[0_0_30px_rgba(16,185,129,0.4)] px-6 py-3 transition-all duration-300 transform hover:-translate-y-1 font-bold text-base">
+                <span class="text-black"><i class="fa-brands fa-whatsapp text-lg mr-2"></i> Chat on WhatsApp</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- Problem / Hook Section -->
+    <section class="always-dark py-12 border-y border-slate-800">
+        <div class="container mx-auto px-4 max-w-4xl text-center">
+            <h2 class="problem-title text-3xl md:text-4xl font-black mb-4">
+                <span class="gradient-text font-black">🎯 तुमच्या व्यवसायाला या समस्या आहेत का?</span>
+            </h2>
+
+            <p class="problem-title text-lg text-gray-300 mb-8 font-medium">जर खालीलपैकी कोणतीही समस्या असेल, तर तुम्हाला योग्य Performance Marketing Strategy ची गरज आहे:</p>
+
+            <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-4 text-left">
+                <div class="problem-card glass-card p-5 rounded-2xl border border-white/5">
+                    <i class="fa-solid fa-circle-xmark text-red-500 text-xl"></i>
+                    <p class="text-white font-bold mt-2">Ads चालू आहेत पण Leads मिळत नाहीत?</p>
+                </div>
+                <div class="problem-card glass-card p-5 rounded-2xl border border-white/5">
+                    <i class="fa-solid fa-circle-xmark text-red-500 text-xl"></i>
+                    <p class="text-white font-bold mt-2">Lead Cost खूप जास्त आहे?</p>
+                </div>
+                <div class="problem-card glass-card p-5 rounded-2xl border border-white/5">
+                    <i class="fa-solid fa-circle-xmark text-red-500 text-xl"></i>
+                    <p class="text-white font-bold mt-2">Sales मध्ये वाढ होत नाही?</p>
+                </div>
+                <div class="problem-card glass-card p-5 rounded-2xl border border-white/5 sm:col-span-2 md:col-span-1">
+                    <i class="fa-solid fa-circle-xmark text-red-500 text-xl"></i>
+                    <p class="text-white font-bold mt-2">Ad Budget खर्च होतो पण ROI मिळत नाही?</p>
+                </div>
+                <div class="problem-card glass-card p-5 rounded-2xl border border-white/5 sm:col-span-2 md:col-span-2">
+                    <i class="fa-solid fa-circle-xmark text-red-500 text-xl"></i>
+                    <p class="text-white font-bold mt-2">Competitors Online पुढे जात आहेत?</p>
+                </div>
+            </div>
+            
+            <div class="mt-8 text-center problem-title">
+                <p class="text-xl font-black text-white">जर होय, तर योग्य Performance Marketing Strategy ची गरज आहे.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Comparison / Growth System Section -->
+    <section class="section-light py-16 container mx-auto px-4 max-w-5xl">
+        <div class="compare-header text-center mb-10">
+            <h2 class="text-3xl md:text-5xl font-black mb-4">आम्ही फक्त Ads Run करत नाही...</h2>
+            <p class="text-lg text-gray-600 dark:text-gray-400 font-bold max-w-2xl mx-auto">💡 आम्ही तुमच्या व्यवसायासाठी संपूर्ण <span class="text-accent">Growth System</span> तयार करतो.</p>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-8">
+            <!-- Other Agencies (Only Ads) -->
+            <div
+                class="compare-card always-dark border-2 border-slate-800 rounded-2xl p-8 relative overflow-hidden shadow-sm">
+                <div
+                    class="absolute top-0 right-0 bg-slate-700 text-white px-4 py-1 rounded-bl-xl font-bold text-xs uppercase tracking-wider">
+                    इतर Agencies</div>
+                <h3 class="text-2xl font-black mb-6 flex items-center gap-3">
+                    <i class="fa-solid fa-triangle-exclamation text-yellow-500 text-2xl"></i>
+                    फक्त Ads Setup & Run
+                </h3>
+                <ul class="space-y-4">
+                    <li class="flex items-start gap-3 font-bold">
+                        <i class="fa-solid fa-circle-xmark text-red-500 mt-1 text-lg"></i> Business Analysis करत नाहीत.
+                    </li>
+                    <li class="flex items-start gap-3 font-bold">
+                        <i class="fa-solid fa-circle-xmark text-red-500 mt-1 text-lg"></i> Competitor & Audience research दुर्लक्षित.
+                    </li>
+                    <li class="flex items-start gap-3 font-bold">
+                        <i class="fa-solid fa-circle-xmark text-red-500 mt-1 text-lg"></i> Conversion tracking gaps.
+                    </li>
+                    <li class="flex items-start gap-3 font-bold">
+                        <i class="fa-solid fa-circle-xmark text-red-500 mt-1 text-lg"></i> Landing Page optimization कडे लक्ष नाही.
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Media Addict Growth System -->
+            <div
+                class="compare-card always-dark border-2 border-accent/40 rounded-2xl p-8 relative overflow-hidden shadow-lg">
+                <div class="absolute top-0 right-0 bg-accent text-white px-4 py-1 rounded-bl-xl font-bold text-xs uppercase tracking-wider">
+                    Our Growth System</div>
+                <h3 class="text-2xl font-black text-accent mb-6 flex items-center gap-3">
+                    <i class="fa-solid fa-fire text-accent text-2xl animate-pulse"></i>
+                    Media Addict System
+                </h3>
+                <ul class="space-y-4">
+                    <li class="flex items-start gap-3 font-bold">
+                        <i class="fa-solid fa-circle-check text-accent mt-1 text-lg"></i> Detailed Business & Competitor Research
+                    </li>
+                    <li class="flex items-start gap-3 font-bold">
+                        <i class="fa-solid fa-circle-check text-accent mt-1 text-lg"></i> In-Depth Audience & Campaign Strategy
+                    </li>
+                    <li class="flex items-start gap-3 font-bold">
+                        <i class="fa-solid fa-circle-check text-accent mt-1 text-lg"></i> High-Converting Landing Page Optimization
+                    </li>
+                    <li class="flex items-start gap-3 font-bold">
+                        <i class="fa-solid fa-circle-check text-accent mt-1 text-lg"></i> Meta Pixel & Conversion API tracking setup
+                    </li>
+                    <li class="flex items-start gap-3 font-bold">
+                        <i class="fa-solid fa-circle-check text-accent mt-1 text-lg"></i> Weekly Performance Reports & Scaling
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="mt-10 text-center">
+            <a href="#" onclick="openModal(event)"
+                class="group relative inline-flex items-center justify-between w-full sm:w-auto bg-accent text-white rounded-full overflow-hidden shadow-neon-cta hover:shadow-[0_0_30px_rgba(37, 99, 235,0.5)] pr-2 pl-6 py-2.5 transition-all duration-300 transform hover:-translate-y-1">
+                <div class="flex-1 mr-4 flex flex-col items-center justify-center tracking-wide text-center">
+                    <span class="font-bold text-white md:text-lg">Get Free Growth Roadmap</span>
+                    <span class="font-bold text-xs mt-0.5 text-white">Book Consultation Call</span>
+                </div>
+                <div
+                    class="bg-white/20 text-white w-10 h-10 rounded-full flex shrink-0 items-center justify-center transition-all duration-300 group-hover:bg-white group-hover:text-accent group-hover:translate-x-1">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                            d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                    </svg>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="always-dark py-20 border-t border-slate-800">
+        <div class="container mx-auto px-4 max-w-6xl">
+            <div class="warp-header text-center mb-16">
+                <h2 class="text-3xl md:text-5xl font-black mb-4 text-white">
+                    <i class="fa-solid fa-chart-line text-accent mr-2"></i> आमच्या <span class="gradient-text font-black">सेवा</span>
+                </h2>
+                <p class="text-lg text-gray-400">आम्ही तुमच्या व्यवसायाच्या शाश्वत वाढीसाठी खालील सेवा पुरवतो</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Service 1 -->
+                <div class="glass-card p-6 rounded-2xl border border-white/5 hover:border-accent/30 transition-all duration-300">
+                    <div class="w-12 h-12 rounded-xl bg-accent/15 border border-accent/25 flex items-center justify-center text-xl mb-4 text-white"><i class="fa-solid fa-bullhorn text-accent"></i></div>
+                    <h3 class="text-xl font-bold text-white mb-2">Meta Ads Management</h3>
+                    <p class="text-sm text-gray-400">Facebook आणि Instagram वर Lead Generation आणि Sales Campaigns Setup आणि Management.</p>
+                </div>
+                <!-- Service 2 -->
+                <div class="glass-card p-6 rounded-2xl border border-white/5 hover:border-accent/30 transition-all duration-300">
+                    <div class="w-12 h-12 rounded-xl bg-accent/15 border border-accent/25 flex items-center justify-center text-xl mb-4 text-white"><i class="fa-solid fa-chart-line text-accent"></i></div>
+                    <h3 class="text-xl font-bold text-white mb-2">Performance Marketing</h3>
+                    <p class="text-sm text-gray-400">ROI-Focused Campaigns जे थेट विक्री (Sales) आणि व्यवसायाचे रेव्हेन्यू वाढवण्यावर लक्ष केंद्रित करतात.</p>
+                </div>
+                <!-- Service 3 -->
+                <div class="glass-card p-6 rounded-2xl border border-white/5 hover:border-accent/30 transition-all duration-300">
+                    <div class="w-12 h-12 rounded-xl bg-accent/15 border border-accent/25 flex items-center justify-center text-xl mb-4 text-white"><i class="fa-solid fa-laptop-code text-accent"></i></div>
+                    <h3 class="text-xl font-bold text-white mb-2">Landing Page Development</h3>
+                    <p class="text-sm text-gray-400">High-Converting Landing Pages जे तुमच्या जाहिरातींवर येणाऱ्या ट्रॅफिकला ग्राहकांत रूपांतरित करतात.</p>
+                </div>
+                <!-- Service 4 -->
+                <div class="glass-card p-6 rounded-2xl border border-white/5 hover:border-accent/30 transition-all duration-300">
+                    <div class="w-12 h-12 rounded-xl bg-accent/15 border border-accent/25 flex items-center justify-center text-xl mb-4 text-white"><i class="fa-solid fa-sliders text-accent"></i></div>
+                    <h3 class="text-xl font-bold text-white mb-2">Conversion Tracking Setup</h3>
+                    <p class="text-sm text-gray-400">Meta Pixel, Conversion API, Google Analytics 4 (GA4) आणि GTM चा अचूक सेटअप.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Workflow Section -->
+    <section class="section-light py-20 border-t border-gray-200 dark:border-accent/10">
+        <div class="container mx-auto px-4 max-w-5xl">
+            <div class="compare-header text-center mb-16">
+                <h2 class="text-3xl md:text-5xl font-black mb-4"><i class="fa-solid fa-gears text-accent mr-2"></i> आमची कार्यपद्धती</h2>
+                <p class="text-lg text-gray-600 dark:text-gray-400 font-bold">आम्ही ५ पायऱ्यांच्या साध्या आणि प्रभावी सिस्टीमने काम करतो</p>
+            </div>
+
+            <div class="relative border-l border-accent/20 ml-4 md:ml-32 space-y-12">
+                <!-- Step 1 -->
+                <div class="relative pl-8 md:pl-12">
+                    <div class="absolute -left-[17px] top-1.5 bg-accent text-white w-8 h-8 rounded-full flex items-center justify-center font-black text-sm border-4 border-white dark:border-[#030712] shadow-md">1</div>
+                    <div class="glass-card p-6 rounded-2xl shadow-sm">
+                        <h3 class="text-xl font-extrabold text-accent mb-2">Step 1 – Business Analysis</h3>
+                        <p class="text-gray-700 dark:text-gray-300 font-medium">आम्ही तुमचा व्यवसाय, प्रॉडक्ट्स/सेवा, लक्ष्यित ग्राहक (Audience) आणि तुमची उद्दिष्टे सखोल समजून घेतो.</p>
+                    </div>
+                </div>
+                <!-- Step 2 -->
+                <div class="relative pl-8 md:pl-12">
+                    <div class="absolute -left-[17px] top-1.5 bg-accent text-white w-8 h-8 rounded-full flex items-center justify-center font-black text-sm border-4 border-white dark:border-[#030712] shadow-md">2</div>
+                    <div class="glass-card p-6 rounded-2xl shadow-sm">
+                        <h3 class="text-xl font-extrabold text-accent mb-2">Step 2 – Strategy Planning</h3>
+                        <p class="text-gray-700 dark:text-gray-300 font-medium">तुमच्या व्यवसायाच्या गरजेनुसार आम्ही एक सानुकूल (Custom) Growth Strategy, बजेट आणि फनेल प्लॅनिंग तयार करतो.</p>
+                    </div>
+                </div>
+                <!-- Step 3 -->
+                <div class="relative pl-8 md:pl-12">
+                    <div class="absolute -left-[17px] top-1.5 bg-accent text-white w-8 h-8 rounded-full flex items-center justify-center font-black text-sm border-4 border-white dark:border-[#030712] shadow-md">3</div>
+                    <div class="glass-card p-6 rounded-2xl shadow-sm">
+                        <h3 class="text-xl font-extrabold text-accent mb-2">Step 3 – Campaign Launch</h3>
+                        <p class="text-gray-700 dark:text-gray-300 font-medium">प्रोफेशनल ॲड क्रिएटिव्ह्ज, कॉपीरायटिंग, अचूक ऑडियन्स टार्गेटिंग आणि ट्रॅकिंग सेटअपसह जाहिराती लाइव्ह करतो.</p>
+                    </div>
+                </div>
+                <!-- Step 4 -->
+                <div class="relative pl-8 md:pl-12">
+                    <div class="absolute -left-[17px] top-1.5 bg-accent text-white w-8 h-8 rounded-full flex items-center justify-center font-black text-sm border-4 border-white dark:border-[#030712] shadow-md">4</div>
+                    <div class="glass-card p-6 rounded-2xl shadow-sm">
+                        <h3 class="text-xl font-extrabold text-accent mb-2">Step 4 – Optimization</h3>
+                        <p class="text-gray-700 dark:text-gray-300 font-medium">जाहिरातींच्या परफॉर्मन्सचे रोज विश्लेषण करून क्रिएटिव्ह्ज, टार्गेटिंग आणि बजेटमध्ये आवश्यक सुधारणा करतो.</p>
+                    </div>
+                </div>
+                <!-- Step 5 -->
+                <div class="relative pl-8 md:pl-12">
+                    <div class="absolute -left-[17px] top-1.5 bg-accent text-white w-8 h-8 rounded-full flex items-center justify-center font-black text-sm border-4 border-white dark:border-[#030712] shadow-md">5</div>
+                    <div class="glass-card p-6 rounded-2xl shadow-sm">
+                        <h3 class="text-xl font-extrabold text-accent mb-2">Step 5 – Scale & Growth</h3>
+                        <p class="text-gray-700 dark:text-gray-300 font-medium">फायदेशीर आरओआय (ROI) टिकवून ठेवत जाहिरातींचे बजेट वाढवतो आणि व्यवसायाला मोठ्या स्तरावर (Scale) घेऊन जातो.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Us Section -->
+    <section class="always-dark py-20 border-t border-slate-800">
+        <div class="container mx-auto px-4 max-w-6xl">
+            <div class="warp-header text-center mb-16">
+                <h2 class="text-3xl md:text-5xl font-black mb-4 text-white">
+                    <i class="fa-solid fa-star text-accent mr-2"></i> आम्हाला का निवडाल?
+                </h2>
+                <p class="text-lg text-gray-400">आम्ही व्यवसायाच्या प्रत्यक्ष वाढीसाठी कटिबद्ध आहोत</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Point 1 -->
+                <div class="glass-card p-6 rounded-2xl border border-white/5 hover:border-accent/30 transition-all duration-300 flex items-start gap-4">
+                    <i class="fa-solid fa-circle-check text-accent text-2xl mt-1"></i>
+                    <div>
+                        <h3 class="text-lg font-bold text-white mb-1">ROI-Focused Approach</h3>
+                        <p class="text-sm text-gray-400">आम्ही फक्त Impressions नाही, तर थेट विक्री (Sales) आणि गुंतवणुकीवरील परतावा (ROI) यावर लक्ष देतो.</p>
+                    </div>
+                </div>
+                <!-- Point 2 -->
+                <div class="glass-card p-6 rounded-2xl border border-white/5 hover:border-accent/30 transition-all duration-300 flex items-start gap-4">
+                    <i class="fa-solid fa-circle-check text-accent text-2xl mt-1"></i>
+                    <div>
+                        <h3 class="text-lg font-bold text-white mb-1">Transparent Reporting</h3>
+                        <p class="text-sm text-gray-400">जाहिरातींवर होणारा खर्च आणि त्यातून मिळणारे रिझल्ट्सचा पारदर्शक व स्पष्ट रिपोर्ट तुम्हाला मिळतो.</p>
+                    </div>
+                </div>
+                <!-- Point 3 -->
+                <div class="glass-card p-6 rounded-2xl border border-white/5 hover:border-accent/30 transition-all duration-300 flex items-start gap-4">
+                    <i class="fa-solid fa-circle-check text-accent text-2xl mt-1"></i>
+                    <div>
+                        <h3 class="text-lg font-bold text-white mb-1">Dedicated Support</h3>
+                        <p class="text-sm text-gray-400">तुमच्या प्रत्येक प्रश्नाचे उत्तर देण्यासाठी आणि मदतीसाठी आमची टीम नेहमी उपलब्ध असते.</p>
+                    </div>
+                </div>
+                <!-- Point 4 -->
+                <div class="glass-card p-6 rounded-2xl border border-white/5 hover:border-accent/30 transition-all duration-300 flex items-start gap-4">
+                    <i class="fa-solid fa-circle-check text-accent text-2xl mt-1"></i>
+                    <div>
+                        <h3 class="text-lg font-bold text-white mb-1">Data-Driven Decisions</h3>
+                        <p class="text-sm text-gray-400">कोणत्याही गृहीतकांवर नाही, तर केवळ ठोस डेटा आणि ट्रॅकिंग मॅट्रिक्सच्या आधारे कॅम्पेन्स ऑप्टिमाइझ केले जातात.</p>
+                    </div>
+                </div>
+                <!-- Point 5 -->
+                <div class="glass-card p-6 rounded-2xl border border-white/5 hover:border-accent/30 transition-all duration-300 flex items-start gap-4">
+                    <i class="fa-solid fa-circle-check text-accent text-2xl mt-1"></i>
+                    <div>
+                        <h3 class="text-lg font-bold text-white mb-1">Business Growth Focus</h3>
+                        <p class="text-sm text-gray-400">आमचे अंतिम उद्दिष्ट फक्त ॲड्स रन करणे नसून तुमच्या व्यवसायाला पुढील स्तरावर नेणे हेच आहे.</p>
+                    </div>
+                </div>
+                <!-- Point 6 -->
+                <div class="glass-card p-6 rounded-2xl border border-white/5 hover:border-accent/30 transition-all duration-300 flex items-start gap-4">
+                    <i class="fa-solid fa-circle-check text-accent text-2xl mt-1"></i>
+                    <div>
+                        <h3 class="text-lg font-bold text-white mb-1">Long-Term Marketing Strategy</h3>
+                        <p class="text-sm text-gray-400">आम्ही तात्पुरते रिझल्ट्स नव्हे, तर तुमच्या व्यवसायासाठी शाश्वत आणि दीर्घकालीन वाढीची सिस्टीम तयार करतो.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Social Proof / Brands Showcase -->
+    <section class="section-light py-16 border-y border-gray-200 dark:border-accent/10 relative w-full overflow-hidden">
+        <div class="container mx-auto px-4 max-w-5xl text-center mb-10">
+            <h3 class="text-xl md:text-2xl font-black uppercase tracking-wider text-accent mb-2">Our Clients & Partners</h3>
+            <p class="text-gray-500 dark:text-gray-400 text-sm md:text-base max-w-xl mx-auto font-bold">विविध ब्रँड्स ज्यांचा मीडिया ॲडिक्टच्या सिस्टीमवर पूर्ण विश्वास आहे</p>
+        </div>
+        
+        <!-- Moving Carousel Container -->
+        <div class="relative w-full overflow-hidden mask-gradient-x">
+            <div class="animate-marquee flex gap-8 py-2">
+                <!-- Group 1 -->
+                <div class="flex gap-8 shrink-0">
+                    <div class="p-4 bg-white dark:bg-[#150207] border border-gray-200 dark:border-accent/15 rounded-2xl flex items-center justify-center h-20 w-44 shadow-sm hover:border-accent/30 transition-all duration-300">
+                        <img src="images/Layer%203.png" alt="Layer 3 Logo" class="max-h-full max-w-full object-contain rounded-lg">
+                    </div>
+                    <div class="p-4 bg-white dark:bg-[#150207] border border-gray-200 dark:border-accent/15 rounded-2xl flex items-center justify-center h-20 w-44 shadow-sm hover:border-accent/30 transition-all duration-300">
+                        <img src="images/final-logo-kitchen.jpg.jpeg" alt="Kitchen Brand Logo" class="max-h-full max-w-full object-contain rounded-lg">
+                    </div>
+                    <div class="p-4 bg-white dark:bg-[#150207] border border-gray-200 dark:border-accent/15 rounded-2xl flex items-center justify-center h-20 w-44 shadow-sm hover:border-accent/30 transition-all duration-300">
+                        <img src="images/logo%20(1).png" alt="Brand Logo 1" class="max-h-full max-w-full object-contain rounded-lg">
+                    </div>
+                    <div class="p-4 bg-white dark:bg-[#150207] border border-gray-200 dark:border-accent/15 rounded-2xl flex items-center justify-center h-20 w-44 shadow-sm hover:border-accent/30 transition-all duration-300">
+                        <img src="images/logo%20(2)%20(1).png" alt="Brand Logo 2" class="max-h-full max-w-full object-contain rounded-lg">
+                    </div>
+                    <div class="p-4 bg-white dark:bg-[#150207] border border-gray-200 dark:border-accent/15 rounded-2xl flex items-center justify-center h-20 w-44 shadow-sm hover:border-accent/30 transition-all duration-300">
+                        <img src="images/logo%20png.png" alt="Brand Logo 3" class="max-h-full max-w-full object-contain rounded-lg">
+                    </div>
+                    <div class="p-4 bg-white dark:bg-[#150207] border border-gray-200 dark:border-accent/15 rounded-2xl flex items-center justify-center h-20 w-44 shadow-sm hover:border-accent/30 transition-all duration-300">
+                        <img src="images/logo-3.png" alt="Brand Logo 4" class="max-h-full max-w-full object-contain rounded-lg">
+                    </div>
+                    <div class="p-4 bg-white dark:bg-[#150207] border border-gray-200 dark:border-accent/15 rounded-2xl flex items-center justify-center h-20 w-44 shadow-sm hover:border-accent/30 transition-all duration-300">
+                        <img src="images/logo.jpg%20(1).jpeg" alt="Brand Logo 5" class="max-h-full max-w-full object-contain rounded-lg">
+                    </div>
+                    <div class="p-4 bg-white dark:bg-[#150207] border border-gray-200 dark:border-accent/15 rounded-2xl flex items-center justify-center h-20 w-44 shadow-sm hover:border-accent/30 transition-all duration-300">
+                        <img src="images/logo.jpg.jpeg" alt="Brand Logo 6" class="max-h-full max-w-full object-contain rounded-lg">
+                    </div>
+                    <div class="p-4 bg-white dark:bg-[#150207] border border-gray-200 dark:border-accent/15 rounded-2xl flex items-center justify-center h-20 w-44 shadow-sm hover:border-accent/30 transition-all duration-300">
+                        <img src="images/logo.png" alt="Brand Logo 7" class="max-h-full max-w-full object-contain rounded-lg">
+                    </div>
+                </div>
+                <!-- Group 2 -->
+                <div class="flex gap-8 shrink-0" aria-hidden="true">
+                    <div class="p-4 bg-white dark:bg-[#150207] border border-gray-200 dark:border-accent/15 rounded-2xl flex items-center justify-center h-20 w-44 shadow-sm hover:border-accent/30 transition-all duration-300">
+                        <img src="images/Layer%203.png" alt="Layer 3 Logo" class="max-h-full max-w-full object-contain rounded-lg">
+                    </div>
+                    <div class="p-4 bg-white dark:bg-[#150207] border border-gray-200 dark:border-accent/15 rounded-2xl flex items-center justify-center h-20 w-44 shadow-sm hover:border-accent/30 transition-all duration-300">
+                        <img src="images/final-logo-kitchen.jpg.jpeg" alt="Kitchen Brand Logo" class="max-h-full max-w-full object-contain rounded-lg">
+                    </div>
+                    <div class="p-4 bg-white dark:bg-[#150207] border border-gray-200 dark:border-accent/15 rounded-2xl flex items-center justify-center h-20 w-44 shadow-sm hover:border-accent/30 transition-all duration-300">
+                        <img src="images/logo%20(1).png" alt="Brand Logo 1" class="max-h-full max-w-full object-contain rounded-lg">
+                    </div>
+                    <div class="p-4 bg-white dark:bg-[#150207] border border-gray-200 dark:border-accent/15 rounded-2xl flex items-center justify-center h-20 w-44 shadow-sm hover:border-accent/30 transition-all duration-300">
+                        <img src="images/logo%20(2)%20(1).png" alt="Brand Logo 2" class="max-h-full max-w-full object-contain rounded-lg">
+                    </div>
+                    <div class="p-4 bg-white dark:bg-[#150207] border border-gray-200 dark:border-accent/15 rounded-2xl flex items-center justify-center h-20 w-44 shadow-sm hover:border-accent/30 transition-all duration-300">
+                        <img src="images/logo%20png.png" alt="Brand Logo 3" class="max-h-full max-w-full object-contain rounded-lg">
+                    </div>
+                    <div class="p-4 bg-white dark:bg-[#150207] border border-gray-200 dark:border-accent/15 rounded-2xl flex items-center justify-center h-20 w-44 shadow-sm hover:border-accent/30 transition-all duration-300">
+                        <img src="images/logo-3.png" alt="Brand Logo 4" class="max-h-full max-w-full object-contain rounded-lg">
+                    </div>
+                    <div class="p-4 bg-white dark:bg-[#150207] border border-gray-200 dark:border-accent/15 rounded-2xl flex items-center justify-center h-20 w-44 shadow-sm hover:border-accent/30 transition-all duration-300">
+                        <img src="images/logo.jpg%20(1).jpeg" alt="Brand Logo 5" class="max-h-full max-w-full object-contain rounded-lg">
+                    </div>
+                    <div class="p-4 bg-white dark:bg-[#150207] border border-gray-200 dark:border-accent/15 rounded-2xl flex items-center justify-center h-20 w-44 shadow-sm hover:border-accent/30 transition-all duration-300">
+                        <img src="images/logo.jpg.jpeg" alt="Brand Logo 6" class="max-h-full max-w-full object-contain rounded-lg">
+                    </div>
+                    <div class="p-4 bg-white dark:bg-[#150207] border border-gray-200 dark:border-accent/15 rounded-2xl flex items-center justify-center h-20 w-44 shadow-sm hover:border-accent/30 transition-all duration-300">
+                        <img src="images/logo.png" alt="Brand Logo 7" class="max-h-full max-w-full object-contain rounded-lg">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Results Screenshots & Client Feedback -->
+    <!-- <section class="section-light py-20 border-t border-gray-200 dark:border-accent/10">
+        <div class="container mx-auto px-4 max-w-6xl text-center">
+
+            <div
+                class="results-header inline-flex items-center gap-2 bg-accent/5 border border-accent/15 px-4 py-1.5 rounded-full mb-4">
+                <span class="text-accent text-sm">📈</span>
+                <span class="text-xs font-bold uppercase tracking-wider text-accent">Real Proof</span>
+            </div>
+
+            <h2 class="results-header text-3xl md:text-5xl font-black mb-4">आमचे Successful Results & Feedbacks</h2>
+            <p class="results-header text-lg text-gray-500 dark:text-gray-400 mb-12 max-w-xl mx-auto font-bold">
+                ग्राहकांचे प्रत्यक्ष संभाषण आणि जाहिरातींचे अचूक परिणाम दर्शवणारे काही स्क्रीनशॉट्स:
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center justify-center">
+
+                <!-- Feedback Image 1 -->
+                <!-- <div
+                    class="results-card glass-card p-4 rounded-3xl border border-gray-200 dark:border-accent/10 hover:border-accent/30 hover:bg-slate-500/5 transition-all duration-300 shadow-lg flex flex-col group">
+                    <div class="overflow-hidden rounded-2xl bg-[#150207] p-2 flex items-center justify-center h-80">
+                        <img src="images/WhatsApp%20Image%202025-10-15%20at%2010.20.16%20PM.jpeg"
+                            alt="Client WhatsApp Feedback"
+                            class="max-h-full max-w-full object-contain group-hover:scale-[1.03] transition-transform duration-500 rounded-lg">
+                    </div>
+                </div> -->
+
+                <!-- Feedback Image 2 -->
+                <!-- <div
+                    class="results-card glass-card p-4 rounded-3xl border border-gray-200 dark:border-accent/10 hover:border-accent/30 hover:bg-slate-500/5 transition-all duration-300 shadow-lg flex flex-col group">
+                    <div class="overflow-hidden rounded-2xl bg-[#150207] p-2 flex items-center justify-center h-80">
+                        <img src="images/final.jpg.jpeg"
+                            alt="Client Funnel Results"
+                            class="max-h-full max-w-full object-contain group-hover:scale-[1.03] transition-transform duration-500 rounded-lg">
+                    </div>
+                </div> -->
+
+                <!-- Feedback Image 3 -->
+                <!-- <div
+                    class="results-card glass-card p-4 rounded-3xl border border-gray-200 dark:border-accent/10 hover:border-accent/30 hover:bg-slate-500/5 transition-all duration-300 shadow-lg flex flex-col group">
+                    <div class="overflow-hidden rounded-2xl bg-[#150207] p-2 flex items-center justify-center h-80">
+                        <img src="images/2.jpg.jpeg"
+                            alt="Campaign Dashboard Statistics"
+                            class="max-h-full max-w-full object-contain group-hover:scale-[1.03] transition-transform duration-500 rounded-lg">
+                    </div>
+                </div> -->
+
+            </div>
+        </div>
+    <!-- </section>  --> 
+
+    <!-- About Us / Agency Section -->
+    <section class="section-dark py-20 border-t border-slate-200 dark:border-slate-800 relative">
+        <div class="container mx-auto px-4 max-w-6xl">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+
+                <!-- Left: Media Addict Logo & stats (5 Cols on Desktop) -->
+                <div class="about-left lg:col-span-5 flex flex-col items-center text-center">
+
+                    <!-- Circular Photo with Glowing Rings & Media Addict Logo -->
+                    <div
+                        class="relative w-72 h-72 sm:w-80 sm:h-80 mb-8 flex items-center justify-center">
+
+                        <!-- Rotating Background Neon Orbit Gradient Ring -->
+                        <div
+                            class="absolute inset-0 rounded-full bg-gradient-to-tr from-accent to-red-800 opacity-20 blur-md animate-[spin_12s_linear_infinite]">
+                        </div>
+
+                        <!-- Main Glowing Border Ring -->
+                        <div
+                            class="absolute inset-1.5 rounded-full border-2 border-dashed border-accent/40 animate-[spin_24s_linear_infinite]">
+                        </div>
+                        <div class="absolute inset-4 rounded-full border border-white/10"></div>
+
+                        <!-- Media Addict Logo inside circle -->
+                        <div
+                            class="absolute inset-6 rounded-full overflow-hidden border-2 border-slate-700 bg-white shadow-neon-accent p-6 flex items-center justify-center">
+                            <img src="images/Gemini_Generated_Image_1tcg7i1tcg7i1tcg.png"
+                                alt="Media Addict Logo"
+                                class="max-h-full max-w-full object-contain scale-105 hover:scale-110 transition-transform duration-500">
+                        </div>
+                    </div>
+
+                    <!-- Left Stats Grid -->
+                    <div class="grid grid-cols-2 gap-4 w-full max-w-sm">
+                        <div
+                            class="glass-card p-4 rounded-2xl border border-white/10 hover:border-accent/30 transition-all duration-300 text-center shadow-lg">
+                            <div class="text-3xl font-black text-accent mb-0.5">500+</div>
+                            <div class="text-[11px] font-bold text-gray-400 uppercase tracking-wider">Clients Scaled</div>
+                        </div>
+                        <div
+                            class="glass-card p-4 rounded-2xl border border-white/10 hover:border-accent/30 transition-all duration-300 text-center shadow-lg">
+                            <div class="text-3xl font-black text-accent mb-0.5">5+ Yrs</div>
+                            <div class="text-[11px] font-bold text-gray-400 uppercase tracking-wider">Experience</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Content Column (7 Cols on Desktop) -->
+                <div class="about-right lg:col-span-7 space-y-6 text-left">
+
+                    <!-- Strategic Badge -->
+                    <div
+                        class="about-right-element inline-flex items-center gap-2 bg-accent/10 border border-accent/20 px-4 py-1.5 rounded-full">
+                        <span class="text-accent text-sm">👑</span>
+                        <span class="text-xs font-bold uppercase tracking-wider text-white">Performance Marketing Agency</span>
+                    </div>
+
+                    <!-- Heading -->
+                    <h2
+                        class="about-right-element text-3xl sm:text-4xl md:text-5xl font-black text-white leading-[1.35]">
+                        आम्ही तुमच्या व्यवसायाची <span class="text-accent">वाढ</span> करण्यासाठी का कटिबद्ध आहोत?
+                    </h2>
+
+                    <!-- Paragraph -->
+                    <p class="about-right-element text-gray-300 text-base sm:text-lg leading-[1.85]">
+                        गेल्या ५ वर्षात आम्ही ५००+ पेक्षा जास्त व्यवसायांना त्यांच्या जाहिराती आणि मार्केटिंगमधील समस्या सोडवण्यासाठी मदत केली आहे. आमचा उद्देश फक्त जाहिराती चालवणे नाही, तर एक असा <strong class="text-white font-bold">Predictable Growth System</strong> तयार करणे आहे जो तुमच्या व्यवसायाला रोज नवीन लीड्स आणि अधिक विक्री मिळवून देईल.
+                    </p>
+
+                    <!-- Pillars / Core Advantages -->
+                    <div class="about-right-element grid grid-cols-1 sm:grid-cols-2 gap-5 pt-2">
+                        <!-- Result Oriented -->
+                        <div
+                            class="flex items-start gap-3.5 bg-slate-950/40 p-4 rounded-2xl border border-slate-800 hover:border-accent/20 transition-all duration-300">
+                            <div
+                                class="w-10 h-10 rounded-xl bg-accent/15 border border-accent/20 flex items-center justify-center shrink-0 text-lg">
+                                <i class="fa-solid fa-bullseye text-accent"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-extrabold text-white text-base">Result Oriented</h4>
+                                <p class="text-xs text-gray-400 mt-1 leading-relaxed">आम्ही फक्त जाहिराती चालवत नाही, तर थेट सेल्स (Sales) आणि रेव्हेन्यूवर लक्ष देतो.</p>
+                            </div>
+                        </div>
+
+                        <!-- Data & Tracking Setup -->
+                        <div
+                            class="flex items-start gap-3.5 bg-slate-950/40 p-4 rounded-2xl border border-slate-800 hover:border-accent/20 transition-all duration-300">
+                            <div
+                                class="w-10 h-10 rounded-xl bg-accent/15 border border-accent/20 flex items-center justify-center shrink-0 text-lg">
+                                <i class="fa-solid fa-circle-nodes text-accent"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-extrabold text-white text-base">Advanced Tracking</h4>
+                                <p class="text-xs text-gray-400 mt-1 leading-relaxed">Meta Pixel आणि Conversion API च्या अचूक सेटअपमुळे तुमचा खर्च योग्यरित्या ट्रॅक होतो.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bottom Integrated Callout Box -->
+                    <div
+                        class="about-right-element bg-gradient-to-r from-accent/10 to-rose-950/10 border border-accent/20 rounded-2xl p-5 md:p-6 shadow-xl flex flex-col md:flex-row justify-between items-center gap-4 mt-6">
+                        <div class="text-center md:text-left space-y-1">
+                            <h4 class="font-black text-white text-lg">आम्च्यासोबत चर्चा करा!</h4>
+                            <p class="text-sm text-gray-300">तुमच्या business साठी custom roadmap तयार करूया.</p>
+                        </div>
+                        <a href="#" onclick="openModal(event)"
+                            class="cta-button shrink-0 group gradient-btn font-extrabold px-6 py-3 rounded-full shadow-lg transition-all duration-300 flex items-center gap-2 text-sm uppercase tracking-wider">
+                            Book Free Call
+                            <span
+                                class="bg-white text-slate-950 group-hover:bg-accent group-hover:text-white w-5 h-5 rounded-full flex items-center justify-center text-xs font-black transition-colors duration-300">&gt;</span>
+                        </a>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Offer & Deliverables (Free Marketing Audit) -->
+    <section class="section-light py-20 border-t border-gray-200 dark:border-accent/10">
+        <div class="container mx-auto px-4 max-w-4xl text-center">
+            <h2 class="text-4xl md:text-5xl font-black mb-6">
+                <i class="fa-solid fa-gift text-accent mr-2"></i> मोफत Marketing Audit
+            </h2>
+            <p class="text-xl text-gray-500 dark:text-gray-400 mb-10 font-bold">
+                तुमच्या जाहिराती आणि फनेल मधील चुका शोधण्यासाठी आणि सुधारण्यासाठी आमच्या या विनामूल्य ऑडिटमध्ये काय मिळेल:
+            </p>
+
+            <div class="glass-card rounded-3xl p-8 md:p-12 text-left relative overflow-hidden shadow-2xl">
+                <!-- Decorative element -->
+                <div class="absolute top-0 right-0 w-64 h-64 bg-accent/5 rounded-full blur-3xl"></div>
+
+                <h3 class="text-2xl font-black mb-8 text-center text-accent">या Free Audit चे मुख्य फायदे:</h3>
+
+                <div class="grid md:grid-cols-2 gap-6 mb-8">
+                    <!-- Audit Items -->
+                    <div class="space-y-4">
+                        <div class="flex items-start gap-3 bg-white/5 dark:bg-[#150207] p-4 rounded-2xl border border-gray-200 dark:border-accent/10 hover:border-accent/30 transition-all duration-300">
+                            <i class="fa-solid fa-circle-check text-accent text-lg mt-0.5 shrink-0"></i>
+                            <span class="font-bold text-gray-800 dark:text-gray-200">Meta Ads Account Review (कॅम्पेनचे परीक्षण)</span>
+                        </div>
+                        <div class="flex items-start gap-3 bg-white/5 dark:bg-[#150207] p-4 rounded-2xl border border-gray-200 dark:border-accent/10 hover:border-accent/30 transition-all duration-300">
+                            <i class="fa-solid fa-circle-check text-accent text-lg mt-0.5 shrink-0"></i>
+                            <span class="font-bold text-gray-800 dark:text-gray-200">Landing Page Analysis (फनेल मधील त्रुटी)</span>
+                        </div>
+                        <div class="flex items-start gap-3 bg-white/5 dark:bg-[#150207] p-4 rounded-2xl border border-gray-200 dark:border-accent/10 hover:border-accent/30 transition-all duration-300">
+                            <i class="fa-solid fa-circle-check text-accent text-lg mt-0.5 shrink-0"></i>
+                            <span class="font-bold text-gray-800 dark:text-gray-200">Competitor Insights (स्पर्धकांचे विश्लेषण)</span>
+                        </div>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div class="flex items-start gap-3 bg-white/5 dark:bg-[#150207] p-4 rounded-2xl border border-gray-200 dark:border-accent/10 hover:border-accent/30 transition-all duration-300">
+                            <i class="fa-solid fa-circle-check text-accent text-lg mt-0.5 shrink-0"></i>
+                            <span class="font-bold text-gray-800 dark:text-gray-200">Tracking Audit (ट्रॅकिंगमधील चुका)</span>
+                        </div>
+                        <div class="flex items-start gap-3 bg-white/5 dark:bg-[#150207] p-4 rounded-2xl border border-gray-200 dark:border-accent/10 hover:border-accent/30 transition-all duration-300">
+                            <i class="fa-solid fa-circle-check text-accent text-lg mt-0.5 shrink-0"></i>
+                            <span class="font-bold text-gray-800 dark:text-gray-200">Growth Opportunities Report (भविष्यातील संधी)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="section-light py-20 border-t border-gray-200 dark:border-accent/10">
+        <div class="container mx-auto px-4 max-w-4xl">
+            <div class="compare-header text-center mb-12">
+                <h2 class="text-3xl md:text-5xl font-black mb-4"><i class="fa-solid fa-circle-question text-accent mr-2"></i> वारंवार विचारले जाणारे प्रश्न</h2>
+                <p class="text-lg text-gray-500 dark:text-gray-400 font-bold">तुमच्या मनातील शंकांचे निरसन येथे करा</p>
+            </div>
+
+            <div class="space-y-4">
+                <!-- FAQ 1 -->
+                <details class="group bg-white dark:bg-[#150207] border border-gray-200 dark:border-accent/10 rounded-2xl p-5 [&_summary::-webkit-details-marker]:hidden transition-all duration-300 shadow-sm">
+                    <summary class="flex items-center justify-between cursor-pointer focus:outline-none">
+                        <h3 class="text-base md:text-lg font-bold theme-text-main flex items-center gap-2">
+                            <span class="text-accent text-xl font-bold">Q.</span>
+                            Meta Ads साठी Budget किती लागतो?
+                        </h3>
+                        <span class="ml-1.5 shrink-0 rounded-full bg-accent/5 p-1.5 text-accent group-open:rotate-180 transition-transform duration-300">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </span>
+                    </summary>
+                    <p class="mt-4 leading-relaxed text-gray-700 dark:text-gray-300 font-medium pl-6 border-l-2 border-accent">
+                        साधारण ₹10,000+ Monthly Budget पासून सुरुवात करता येते.
+                    </p>
+                </details>
+
+                <!-- FAQ 2 -->
+                <details class="group bg-white dark:bg-[#150207] border border-gray-200 dark:border-accent/10 rounded-2xl p-5 [&_summary::-webkit-details-marker]:hidden transition-all duration-300 shadow-sm">
+                    <summary class="flex items-center justify-between cursor-pointer focus:outline-none">
+                        <h3 class="text-base md:text-lg font-bold theme-text-main flex items-center gap-2">
+                            <span class="text-accent text-xl font-bold">Q.</span>
+                            Results किती दिवसांत मिळतात?
+                        </h3>
+                        <span class="ml-1.5 shrink-0 rounded-full bg-accent/5 p-1.5 text-accent group-open:rotate-180 transition-transform duration-300">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </span>
+                    </summary>
+                    <p class="mt-4 leading-relaxed text-gray-700 dark:text-gray-300 font-medium pl-6 border-l-2 border-accent">
+                        साधारण 7 ते 30 दिवसांत Results दिसू लागतात.
+                    </p>
+                </details>
+
+                <!-- FAQ 3 -->
+                <details class="group bg-white dark:bg-[#150207] border border-gray-200 dark:border-accent/10 rounded-2xl p-5 [&_summary::-webkit-details-marker]:hidden transition-all duration-300 shadow-sm">
+                    <summary class="flex items-center justify-between cursor-pointer focus:outline-none">
+                        <h3 class="text-base md:text-lg font-bold theme-text-main flex items-center gap-2">
+                            <span class="text-accent text-xl font-bold">Q.</span>
+                            Landing Page तुम्ही तयार करता का?
+                        </h3>
+                        <span class="ml-1.5 shrink-0 rounded-full bg-accent/5 p-1.5 text-accent group-open:rotate-180 transition-transform duration-300">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </span>
+                    </summary>
+                    <p class="mt-4 leading-relaxed text-gray-700 dark:text-gray-300 font-medium pl-6 border-l-2 border-accent">
+                        होय, आम्ही High-Converting Landing Pages तयार करतो.
+                    </p>
+                </details>
+
+                <!-- FAQ 4 -->
+                <details class="group bg-white dark:bg-[#150207] border border-gray-200 dark:border-accent/10 rounded-2xl p-5 [&_summary::-webkit-details-marker]:hidden transition-all duration-300 shadow-sm">
+                    <summary class="flex items-center justify-between cursor-pointer focus:outline-none">
+                        <h3 class="text-base md:text-lg font-bold theme-text-main flex items-center gap-2">
+                            <span class="text-accent text-xl font-bold">Q.</span>
+                            Tracking Setup करता का?
+                        </h3>
+                        <span class="ml-1.5 shrink-0 rounded-full bg-accent/5 p-1.5 text-accent group-open:rotate-180 transition-transform duration-300">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </span>
+                    </summary>
+                    <p class="mt-4 leading-relaxed text-gray-700 dark:text-gray-300 font-medium pl-6 border-l-2 border-accent">
+                        होय, Meta Pixel आणि Conversion API Setup पूर्णपणे करतो.
+                    </p>
+                </details>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bottom CTA Area -->
+    <section id="booking" class="always-dark py-20 w-full border-t border-slate-800 relative">
+        <div class="container mx-auto px-4 max-w-4xl text-center">
+            
+            <div class="inline-flex items-center gap-2 bg-accent/10 border border-accent/20 px-4 py-1.5 rounded-full mb-6">
+                <i class="fa-solid fa-rocket text-accent text-sm animate-bounce mr-0.5"></i>
+                <span class="text-xs font-bold uppercase tracking-wider text-white font-sans">Scale Your Business</span>
+            </div>
+
+            <h2 class="text-3xl md:text-5xl font-black mb-6 text-white leading-tight">तुमचा व्यवसाय पुढील स्तरावर न्यायचा आहे का?</h2>
+
+            <div class="max-w-2xl mx-auto mb-10">
+                <p class="text-xl text-gray-200 font-bold mb-4">
+                    तुम्ही Ads Agency शोधत नाही आहात...
+                </p>
+                <p class="text-lg text-gray-400 leading-relaxed font-semibold">
+                    तुम्ही असा <span class="text-accent">Growth Partner</span> शोधत आहात जो तुमच्या व्यवसायासाठी अधिक Leads, अधिक Sales आणि अधिक Revenue निर्माण करेल.
+                </p>
+                <p class="text-base text-gray-300 mt-6 font-bold border-2 border-accent/20 rounded-xl p-4 bg-accent/5">
+                    आजच संपर्क करा आणि तुमच्या व्यवसायासाठी Growth Roadmap मिळवा.
+                </p>
+            </div>
+
+            <!-- CTA Actions Grid -->
+            <div class="flex flex-wrap items-center justify-center gap-4 max-w-2xl mx-auto">
+                <a href="#" onclick="openModal(event)"
+                    class="group relative inline-flex items-center justify-center bg-accent text-black rounded-full overflow-hidden shadow-neon-cta hover:shadow-[0_0_35px_rgba(37, 99, 235,0.6)] px-8 py-3.5 transition-all duration-300 transform hover:-translate-y-1 font-bold text-base md:text-lg">
+                    <span class="text-black"><i class="fa-solid fa-calendar-check mr-2"></i> Book Free Consultation Call</span>
+                </a>
+                
+                <a href="https://wa.me/9850986409" target="_blank"
+                    class="group relative inline-flex items-center justify-center bg-emerald-600 text-black rounded-full overflow-hidden shadow-md hover:shadow-[0_0_35px_rgba(16,185,129,0.5)] px-8 py-3.5 transition-all duration-300 transform hover:-translate-y-1 font-bold text-base md:text-lg">
+                    <span class="text-black"><i class="fa-brands fa-whatsapp mr-2"></i> Chat on WhatsApp</span>
+                </a>
+
+                <a href="tel:9850986409"
+                    class="group relative inline-flex items-center justify-center bg-white text-[#111827] rounded-full overflow-hidden shadow-md px-8 py-3.5 transition-all duration-300 transform hover:-translate-y-1 font-black text-base md:text-lg hover:bg-gray-100">
+                    <span><i class="fa-solid fa-phone mr-2"></i> Call Now: 9850986409</span>
+                </a>
+            </div>
+
+            <!-- Email and Quote Block -->
+            <div class="mt-16 pt-8 border-t border-white/10 max-w-2xl mx-auto">
+                <p class="text-gray-400 text-sm font-bold mb-6">
+                    Email: <a href="mailto:mediaaddictstudio5@gmail.com" class="text-accent hover:underline">mediaaddictstudio5@gmail.com</a>
+                </p>
+                <div class="relative bg-white/5 p-6 rounded-2xl border border-white/5">
+                    <span class="absolute -top-3.5 left-6 bg-accent text-white px-3 py-0.5 rounded-full text-xs font-bold uppercase tracking-wider">Quote</span>
+                    <p class="text-base md:text-lg font-bold text-gray-200 italic leading-relaxed">
+                        <i class="fa-solid fa-quote-left text-accent mr-1.5"></i> "तुमचा प्रत्येक Ad Spend हा खर्च नसून व्यवसायाच्या वाढीसाठी केलेली गुंतवणूक असावी, यासाठी आम्ही काम करतो."
+                    </p>
+                </div>
+            </div>
+            
+        </div>
+    </section>
+
+    <!-- Floating Sticky Swipe-to-Book Bar -->
+    <div
+        class="fixed bottom-0 left-0 w-full bg-white/95 dark:bg-slate-950/95 backdrop-blur-lg border-t border-slate-200 dark:border-slate-800 py-3 px-4 z-50 shadow-xl dark:shadow-[0_-10px_30px_rgba(0,0,0,0.6)] transition-colors duration-300">
+        <div class="container mx-auto max-w-sm">
+            <div id="swipe-container"
+                class="relative w-full h-14 bg-gradient-to-r from-accent/10 to-accent/20 dark:from-accent/20 dark:to-accent/40 rounded-full overflow-hidden border border-accent/30 flex items-center justify-center cursor-pointer touch-none">
+                <span id="swipe-text"
+                    class="shimmer-text font-black text-lg select-none z-10 transition-opacity duration-300 pointer-events-none">SWIPE TO BOOK NOW</span>
+
+                <div id="swipe-knob"
+                    class="absolute left-1 top-1 w-12 h-12 bg-accent rounded-full flex items-center justify-center shadow-[0_0_15px_rgba(37, 99, 235,0.5)] z-20 cursor-grab active:cursor-grabbing">
+                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
+                            d="M13 5l7 7-7 7M5 5l7 7-7 7"></path>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Booking Modal -->
+    <div id="bookingModal"
+        class="fixed inset-0 z-[100] hidden overflow-y-auto flex justify-center items-start sm:items-center bg-black/80 backdrop-blur-sm p-4 opacity-0 transition-opacity duration-300">
+        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 w-full max-w-md rounded-[24px] p-8 relative shadow-2xl transform scale-95 transition-transform duration-300 transition-colors duration-300 my-auto"
+            id="modalContent">
+
+            <button onclick="closeModal()"
+                class="absolute top-5 right-5 text-slate-400 hover:text-slate-600 dark:hover:text-white transition-colors p-1.5 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12">
+                    </path>
+                </svg>
+            </button>
+
+            <div id="bookingFormContainer">
+                <div class="text-center sm:text-left mb-6">
+                    <h3 class="text-2xl font-black tracking-tight text-slate-900 dark:text-white flex items-center justify-center sm:justify-start gap-2">
+                        <i class="fa-solid fa-circle-dot text-accent animate-pulse text-sm"></i>
+                        बुक करा Free Strategy Call
+                    </h3>
+                    <p class="text-slate-500 dark:text-slate-400 text-xs sm:text-sm font-medium mt-1">
+                        कृपया खालील माहिती भरा, आमची टीम लवकरच तुमच्याशी संपर्क साधेल.
+                    </p>
+                </div>
+
+                <form id="bookingForm" onsubmit="handleFormSubmit(event)" class="space-y-5">
+                    <!-- Name Field -->
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-1.5 flex items-center gap-1">
+                            Full Name <span class="text-accent text-[10px]">*</span>
+                        </label>
+                        <div class="relative rounded-xl shadow-sm">
+                            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 dark:text-slate-500">
+                                <i class="fa-solid fa-user text-sm"></i>
+                            </div>
+                            <input type="text" id="name" required
+                                class="w-full bg-slate-50 dark:bg-slate-950/60 border border-slate-200 dark:border-slate-800 rounded-xl pl-11 pr-4 py-3 text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:border-accent focus:ring-4 focus:ring-accent/10 focus:bg-white dark:focus:bg-slate-900 transition-all duration-300 text-sm font-medium"
+                                placeholder="तुमचे नाव">
+                        </div>
+                    </div>
+
+                    <!-- Mobile Field -->
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-1.5 flex items-center gap-1">
+                            Mobile Number <span class="text-accent text-[10px]">*</span>
+                        </label>
+                        <div class="relative rounded-xl">
+                            <input type="tel" id="mobile" required
+                                class="w-full bg-slate-50 dark:bg-slate-950/60 border border-slate-200 dark:border-slate-800 rounded-xl pr-4 py-3 text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:border-accent focus:ring-4 focus:ring-accent/10 focus:bg-white dark:focus:bg-slate-900 transition-all duration-300 text-sm font-medium"
+                                placeholder="10 digit mobile no">
+                        </div>
+                    </div>
+
+                    <!-- City Field -->
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-1.5 flex items-center gap-1">
+                            City <span class="text-accent text-[10px]">*</span>
+                        </label>
+                        <div class="relative rounded-xl shadow-sm">
+                            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 dark:text-slate-500">
+                                <i class="fa-solid fa-location-dot text-sm"></i>
+                            </div>
+                            <input type="text" id="city" required
+                                class="w-full bg-slate-50 dark:bg-slate-950/60 border border-slate-200 dark:border-slate-800 rounded-xl pl-11 pr-4 py-3 text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:border-accent focus:ring-4 focus:ring-accent/10 focus:bg-white dark:focus:bg-slate-900 transition-all duration-300 text-sm font-medium"
+                                placeholder="तुमचे शहर">
+                        </div>
+                    </div>
+
+                    <!-- Date Field -->
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-1.5 flex items-center gap-1">
+                            Preferred Call Date <span class="text-accent text-[10px]">*</span>
+                        </label>
+                        <div class="relative rounded-xl shadow-sm">
+                            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 dark:text-slate-500">
+                                <i class="fa-solid fa-calendar-days text-sm"></i>
+                            </div>
+                            <input type="date" id="booking_date" required
+                                class="w-full bg-slate-50 dark:bg-slate-950/60 border border-slate-200 dark:border-slate-800 rounded-xl pl-11 pr-4 py-3 text-slate-900 dark:text-slate-100 focus:outline-none focus:border-accent focus:ring-4 focus:ring-accent/10 focus:bg-white dark:focus:bg-slate-900 transition-all duration-300 text-sm font-medium">
+                        </div>
+                    </div>
+
+                    <button type="submit"
+                        class="w-full bg-accent text-white font-bold py-3.5 rounded-xl mt-4 shadow-neon-cta hover:shadow-[0_10px_25px_rgba(37, 99, 235,0.35)] hover:-translate-y-0.5 active:translate-y-0 transition-all duration-300 flex items-center justify-center gap-2 text-base">
+                        बुक करा Strategy Call <i class="fa-solid fa-arrow-right text-sm"></i>
+                    </button>
+                </form>
+            </div>
+
+            <!-- Success Message Container (Hidden by default) -->
+            <div id="bookingSuccessContainer" class="hidden flex flex-col items-center text-center py-8 opacity-0 scale-95 transition-all duration-500">
+                <!-- Glowing Checkmark Icon -->
+                <div class="relative w-20 h-20 mb-6 flex items-center justify-center checkmark-circle">
+                    <!-- Glow effect -->
+                    <div class="absolute inset-0 bg-[#2563EB] rounded-full blur-[20px] opacity-15"></div>
+                    <!-- Icon circle -->
+                    <div class="relative z-10 w-[56px] h-[56px] rounded-full border-[3px] border-[#2563EB] flex items-center justify-center bg-transparent">
+                        <svg class="w-7 h-7 text-[#2563EB]" fill="none" stroke="currentColor" stroke-width="3.5" viewBox="0 0 24 24">
+                            <path class="checkmark-path" stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                    </div>
+                </div>
+
+                <h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">यशस्वीरित्या बुक केले! 🎉</h3>
+                <p class="text-gray-500 dark:text-gray-400 text-sm leading-relaxed max-w-xs mx-auto mb-8 font-bold">
+                    तुमची माहिती आमच्याकडे यशस्वीरित्या पोहोचली आहे. आमची टीम २४ तासांच्या आत तुमच्याशी संपर्क साधेल.
+                </p>
+
+                <button onclick="closeModal()" class="w-full bg-[#2563EB] hover:bg-[#1D4ED8] text-white font-bold text-[16px] py-[12px] rounded-full shadow-[0_8px_20px_rgba(37, 99, 235,0.2)] hover:shadow-[0_12px_25px_rgba(37, 99, 235,0.3)] transition-all duration-300 transform hover:-translate-y-0.5">
+                    Close Window
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Theme Toggle and Initialization Logic
+        function toggleTheme() {
+            const html = document.documentElement;
+            const sunIcon = document.getElementById('sunIcon');
+            const moonIcon = document.getElementById('moonIcon');
+
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                sunIcon.classList.add('hidden');
+                moonIcon.classList.remove('hidden');
+                localStorage.setItem('theme', 'light');
+            } else {
+                html.classList.add('dark');
+                sunIcon.classList.remove('hidden');
+                moonIcon.classList.add('hidden');
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        // Initialize theme based on preference, default to light
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        const html = document.documentElement;
+        if (savedTheme === 'dark') {
+            html.classList.add('dark');
+            document.addEventListener('DOMContentLoaded', () => {
+                const sun = document.getElementById('sunIcon');
+                const moon = document.getElementById('moonIcon');
+                if (sun && moon) {
+                    sun.classList.remove('hidden');
+                    moon.classList.add('hidden');
+                }
+            });
+        } else {
+            html.classList.remove('dark');
+            document.addEventListener('DOMContentLoaded', () => {
+                const sun = document.getElementById('sunIcon');
+                const moon = document.getElementById('moonIcon');
+                if (sun && moon) {
+                    sun.classList.add('hidden');
+                    moon.classList.remove('hidden');
+                }
+            });
+        }
+
+        const modal = document.getElementById('bookingModal');
+        const modalContent = document.getElementById('modalContent');
+
+        function openModal(e) {
+            if (e) e.preventDefault();
+            
+            // Reset modal state to show form and hide success container
+            document.getElementById('bookingFormContainer').classList.remove('hidden');
+            const successContainer = document.getElementById('bookingSuccessContainer');
+            successContainer.classList.add('hidden');
+            successContainer.classList.add('opacity-0', 'scale-95');
+            
+            // Reset form fields
+            document.getElementById('bookingForm').reset();
+            const btn = document.getElementById('bookingForm').querySelector('button[type="submit"]');
+            btn.innerHTML = 'बुक करा Strategy Call <i class="fa-solid fa-arrow-right ml-2"></i>';
+            btn.disabled = false;
+            btn.classList.remove('opacity-75', 'cursor-not-allowed');
+
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                modalContent.classList.remove('scale-95');
+            }, 10);
+            
+            // Lock body scrolling
+            document.body.classList.add('overflow-hidden');
+        }
+
+        function closeModal() {
+            modal.classList.add('opacity-0');
+            modalContent.classList.add('scale-95');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                // Restore body scrolling
+                document.body.classList.remove('overflow-hidden');
+            }, 300);
+        }
+
+        function handleFormSubmit(e) {
+            e.preventDefault();
+
+            // Add Loading State
+            const btn = e.target.querySelector('button[type="submit"]');
+            btn.innerHTML = 'Processing...';
+            btn.disabled = true;
+            btn.classList.add('opacity-75', 'cursor-not-allowed');
+
+            // Gather form data
+            const name = document.getElementById('name').value;
+            const mobile = window.iti ? window.iti.getNumber() : document.getElementById('mobile').value;
+            const city = document.getElementById('city').value;
+            const booking_date = document.getElementById('booking_date').value;
+
+            // Determine API base URL dynamically (use local PHP server if opened via file://)
+            const apiBaseUrl = window.location.protocol === 'file:' ? 'http://localhost:8000/' : '';
+
+            // Save to database asynchronously
+            fetch(apiBaseUrl + 'save_booking.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name, mobile, city, booking_date })
+            })
+            .then(res => res.json())
+            .then(data => {
+                // Show success screen inside modal
+                document.getElementById('bookingFormContainer').classList.add('hidden');
+                const successContainer = document.getElementById('bookingSuccessContainer');
+                successContainer.classList.remove('hidden');
+                setTimeout(() => {
+                    successContainer.classList.remove('opacity-0', 'scale-95');
+                }, 50);
+            })
+            .catch(err => {
+                console.error("Database save failed:", err);
+                // Fallback for offline/local view - show success anyway
+                document.getElementById('bookingFormContainer').classList.add('hidden');
+                const successContainer = document.getElementById('bookingSuccessContainer');
+                successContainer.classList.remove('hidden');
+                setTimeout(() => {
+                    successContainer.classList.remove('opacity-0', 'scale-95');
+                }, 50);
+            });
+        }
+    </script>
+
+    <!-- intl-tel-input JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/19.2.4/js/intlTelInput.min.js"></script>
+    <script>
+        let iti;
+        document.addEventListener('DOMContentLoaded', () => {
+            const phoneInput = document.querySelector("#mobile");
+            if (phoneInput) {
+                iti = window.intlTelInput(phoneInput, {
+                    initialCountry: "in",
+                    preferredCountries: ["in", "us", "ae", "gb"],
+                    separateDialCode: true,
+                    countrySearch: true,
+                    utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/19.2.4/js/utils.js"
+                });
+                window.iti = iti;
+            }
+
+            const dateInput = document.querySelector("#booking_date");
+            if (dateInput) {
+                const today = new Date().toISOString().split('T')[0];
+                dateInput.min = today;
+            }
+        });
+    </script>
+
+    <!-- GSAP Animation Library & ScrollTrigger Plugin -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+    <script>
+        // Enable JS class to trigger clean layout visibility
+        document.documentElement.classList.add('js-enabled');
+
+        // Add styling dynamically to avoid flashing unstyled content before GSAP loads
+        const style = document.createElement('style');
+        style.textContent = `
+            .js-enabled .hero-badge, 
+            .js-enabled .hero-title-line, 
+            .js-enabled .hero-para, 
+            .js-enabled .hero-prop, 
+            .js-enabled .hero-btn, 
+            .js-enabled .problem-title, 
+            .js-enabled .problem-card, 
+            .js-enabled .compare-header, 
+            .js-enabled .compare-card,
+            .js-enabled .warp-header, 
+            .js-enabled .warp-image, 
+            .js-enabled .warp-item,
+            .js-enabled .testimonial-header, 
+            .js-enabled .testimonial-card,
+            .js-enabled .results-header, 
+            .js-enabled .results-card,
+            .js-enabled .about-left, 
+            .js-enabled .about-right-element {
+                opacity: 0;
+                will-change: transform, opacity;
+            }
+        `;
+        document.head.appendChild(style);
+
+        window.addEventListener('DOMContentLoaded', () => {
+            // Register ScrollTrigger
+            gsap.registerPlugin(ScrollTrigger);
+
+            // --- HERO ENTRANCE TIMELINE ---
+            const heroTL = gsap.timeline({ defaults: { ease: "power4.out" } });
+
+            heroTL.to('.hero-badge', {
+                opacity: 1,
+                y: 0,
+                scale: 1,
+                duration: 0.8,
+                startAt: { y: -20, scale: 0.9, opacity: 0 }
+            })
+                .to('.hero-title-line', {
+                    opacity: 1,
+                    y: 0,
+                    duration: 1.2,
+                    stagger: 0.15,
+                    startAt: { y: -45, opacity: 0 },
+                    ease: "back.out(1.2)"
+                }, "-=0.5")
+                .to('.hero-para', {
+                    opacity: 1,
+                    y: 0,
+                    duration: 1.0,
+                    startAt: { y: 25, opacity: 0 }
+                }, "-=0.8")
+                .to('.hero-prop', {
+                    opacity: 1,
+                    scale: 1,
+                    duration: 0.8,
+                    stagger: 0.1,
+                    startAt: { scale: 0.92, opacity: 0 },
+                    ease: "back.out(1.7)"
+                }, "-=0.7")
+                .to('.hero-btn', {
+                    opacity: 1,
+                    scale: 1,
+                    duration: 0.8,
+                    startAt: { scale: 0.95, opacity: 0 },
+                    ease: "back.out(2)"
+                }, "-=0.6");
+
+            // --- PROBLEM SECTION SCROLLTRIGGER ---
+            gsap.to('.problem-title', {
+                scrollTrigger: {
+                    trigger: '.problem-title',
+                    start: "top 85%",
+                    toggleActions: "play none none none"
+                },
+                opacity: 1,
+                y: 0,
+                duration: 1.0,
+                startAt: { y: 30, opacity: 0 },
+                ease: "power3.out"
+            });
+
+            gsap.to('.problem-card', {
+                scrollTrigger: {
+                    trigger: '.problem-title',
+                    start: "top 80%",
+                    toggleActions: "play none none none"
+                },
+                opacity: 1,
+                y: 0,
+                scale: 1,
+                duration: 1.0,
+                stagger: 0.15,
+                startAt: { y: 40, scale: 0.97, opacity: 0 },
+                ease: "power2.out"
+            });
+
+            // --- COMPARISON SECTION SCROLLTRIGGER ---
+            gsap.to('.compare-header', {
+                scrollTrigger: {
+                    trigger: '.compare-header',
+                    start: "top 85%",
+                    toggleActions: "play none none none"
+                },
+                opacity: 1,
+                y: 0,
+                duration: 1.0,
+                startAt: { y: 30, opacity: 0 },
+                ease: "power3.out"
+            });
+
+            gsap.to('.compare-card', {
+                scrollTrigger: {
+                    trigger: '.compare-header',
+                    start: "top 78%",
+                    toggleActions: "play none none none"
+                },
+                opacity: 1,
+                y: 0,
+                scale: 1,
+                duration: 1.2,
+                stagger: 0.2,
+                startAt: { y: 50, scale: 0.96, opacity: 0 },
+                ease: "back.out(1.1)"
+            });
+
+            // --- WARP FRAMEWORK SECTION SCROLLTRIGGER ---
+            gsap.to('.warp-header', {
+                scrollTrigger: {
+                    trigger: '.warp-header',
+                    start: "top 85%",
+                    toggleActions: "play none none none"
+                },
+                opacity: 1,
+                y: 0,
+                duration: 1.0,
+                startAt: { y: 30, opacity: 0 },
+                ease: "power3.out"
+            });
+
+            gsap.to('.warp-image', {
+                scrollTrigger: {
+                    trigger: '.warp-header',
+                    start: "top 75%",
+                    toggleActions: "play none none none"
+                },
+                opacity: 1,
+                scale: 1,
+                duration: 1.2,
+                startAt: { scale: 0.92, opacity: 0 },
+                ease: "power2.out"
+            });
+
+            gsap.to('.warp-item', {
+                scrollTrigger: {
+                    trigger: '.warp-header',
+                    start: "top 70%",
+                    toggleActions: "play none none none"
+                },
+                opacity: 1,
+                x: 0,
+                duration: 0.9,
+                stagger: 0.15,
+                startAt: { x: window.innerWidth > 768 ? 35 : 0, y: window.innerWidth > 768 ? 0 : 25, opacity: 0 },
+                ease: "power2.out"
+            });
+
+            // --- TESTIMONIALS SECTION SCROLLTRIGGER ---
+            gsap.to('.testimonial-header', {
+                scrollTrigger: {
+                    trigger: '.testimonial-header',
+                    start: "top 85%",
+                    toggleActions: "play none none none"
+                },
+                opacity: 1,
+                y: 0,
+                duration: 1.0,
+                startAt: { y: 30, opacity: 0 },
+                ease: "power3.out"
+            });
+
+            gsap.to('.testimonial-card', {
+                scrollTrigger: {
+                    trigger: '.testimonial-header',
+                    start: "top 80%",
+                    toggleActions: "play none none none"
+                },
+                opacity: 1,
+                y: 0,
+                scale: 1,
+                duration: 1.0,
+                stagger: 0.12,
+                startAt: { y: 40, scale: 0.97, opacity: 0 },
+                ease: "power2.out"
+            });
+
+            // --- RESULTS SCREENSHOTS SCROLLTRIGGER ---
+            gsap.to('.results-header', {
+                scrollTrigger: {
+                    trigger: '.results-header',
+                    start: "top 85%",
+                    toggleActions: "play none none none"
+                },
+                opacity: 1,
+                y: 0,
+                duration: 1.0,
+                startAt: { y: 30, opacity: 0 },
+                ease: "power3.out"
+            });
+
+            gsap.to('.results-card', {
+                scrollTrigger: {
+                    trigger: '.results-header',
+                    start: "top 80%",
+                    toggleActions: "play none none none"
+                },
+                opacity: 1,
+                scale: 1,
+                duration: 0.8,
+                stagger: 0.1,
+                startAt: { scale: 0.93, opacity: 0 },
+                ease: "back.out(1.2)"
+            });
+
+            // --- ABOUT US / FOUNDER SECTION SCROLLTRIGGER ---
+            gsap.to('.about-left', {
+                scrollTrigger: {
+                    trigger: '.about-left',
+                    start: "top 85%",
+                    toggleActions: "play none none none"
+                },
+                opacity: 1,
+                scale: 1,
+                duration: 1.2,
+                startAt: { scale: 0.90, opacity: 0 },
+                ease: "power3.out"
+            });
+
+            gsap.to('.about-right-element', {
+                scrollTrigger: {
+                    trigger: '.about-left',
+                    start: "top 80%",
+                    toggleActions: "play none none none"
+                },
+                opacity: 1,
+                y: 0,
+                duration: 0.9,
+                stagger: 0.15,
+                startAt: { y: 30, opacity: 0 },
+                ease: "power3.out"
+            });
+
+            // Refresh ScrollTrigger to parse everything perfectly
+            ScrollTrigger.refresh();
+        });
+
+        // --- WEB AUDIO API SYNTHESIZER ---
+        let audioCtx = null;
+        function getAudioContext() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            return audioCtx;
+        }
+
+        function playSuccessSound() {
+            try {
+                const ctx = getAudioContext();
+                if (ctx.state === 'suspended') ctx.resume();
+                const now = ctx.currentTime;
+                
+                // First Note: E5
+                const osc1 = ctx.createOscillator();
+                const gain1 = ctx.createGain();
+                osc1.type = 'sine';
+                osc1.frequency.setValueAtTime(659.25, now);
+                gain1.gain.setValueAtTime(0.12, now);
+                gain1.gain.exponentialRampToValueAtTime(0.001, now + 0.25);
+                osc1.connect(gain1);
+                gain1.connect(ctx.destination);
+                osc1.start(now);
+                osc1.stop(now + 0.25);
+
+                // Second Note: A5
+                const osc2 = ctx.createOscillator();
+                const gain2 = ctx.createGain();
+                osc2.type = 'sine';
+                osc2.frequency.setValueAtTime(880.00, now + 0.08);
+                gain2.gain.setValueAtTime(0.18, now + 0.08);
+                gain2.gain.exponentialRampToValueAtTime(0.001, now + 0.45);
+                osc2.connect(gain2);
+                gain2.connect(ctx.destination);
+                osc2.start(now + 0.08);
+                osc2.stop(now + 0.45);
+            } catch (e) {
+                console.warn("Audio Context blocked or unsupported:", e);
+            }
+        }
+
+        function playResetSound() {
+            try {
+                const ctx = getAudioContext();
+                if (ctx.state === 'suspended') ctx.resume();
+                const now = ctx.currentTime;
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(250, now);
+                osc.frequency.exponentialRampToValueAtTime(100, now + 0.12);
+                
+                gain.gain.setValueAtTime(0.08, now);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.12);
+                
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.start(now);
+                osc.stop(now + 0.12);
+            } catch (e) {
+                console.warn("Audio Context blocked or unsupported:", e);
+            }
+        }
+
+        function playTickSound() {
+            try {
+                const ctx = getAudioContext();
+                if (ctx.state === 'suspended') ctx.resume();
+                const now = ctx.currentTime;
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(1000, now);
+                osc.frequency.exponentialRampToValueAtTime(700, now + 0.015);
+                
+                gain.gain.setValueAtTime(0.015, now);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.015);
+                
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.start(now);
+                osc.stop(now + 0.015);
+            } catch(e) {}
+        }
+
+        // --- CONFETTI ANIMATION ---
+        function triggerConfetti(x, y) {
+            const container = document.body;
+            const colors = ['#2563EB', '#E63946', '#FFD700', '#FF4500', '#FF1493'];
+            for (let i = 0; i < 20; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'fixed pointer-events-none rounded-full z-[9999]';
+                const size = Math.random() * 8 + 6;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                particle.style.left = `${x}px`;
+                particle.style.top = `${y}px`;
+                container.appendChild(particle);
+                
+                const angle = Math.random() * Math.PI * 2;
+                const velocity = Math.random() * 120 + 60;
+                const vx = Math.cos(angle) * velocity;
+                const vy = Math.sin(angle) * velocity - 40;
+                
+                let posX = x;
+                let posY = y;
+                let startTime = null;
+                
+                function animateParticle(timestamp) {
+                    if (!startTime) startTime = timestamp;
+                    const elapsed = (timestamp - startTime) / 1000;
+                    if (elapsed > 0.8) {
+                        particle.remove();
+                        return;
+                    }
+                    const currentX = posX + vx * elapsed;
+                    const currentY = posY + vy * elapsed + 150 * elapsed * elapsed;
+                    const currentOpacity = 1 - (elapsed / 0.8);
+                    
+                    particle.style.left = `${currentX}px`;
+                    particle.style.top = `${currentY}px`;
+                    particle.style.opacity = currentOpacity;
+                    requestAnimationFrame(animateParticle);
+                }
+                requestAnimationFrame(animateParticle);
+            }
+        }
+
+        // --- SWIPE TO BOOK LOGIC ---
+        const swipeContainer = document.getElementById('swipe-container');
+        const swipeKnob = document.getElementById('swipe-knob');
+        const swipeText = document.getElementById('swipe-text');
+
+        if (swipeContainer && swipeKnob) {
+            let isDragging = false;
+            let startX = 0;
+            let currentX = 0;
+            let lastTickX = 0;
+            let lastVibrateX = 0;
+
+            const getMaxScroll = () => swipeContainer.clientWidth - swipeKnob.clientWidth - 8;
+
+            const startDrag = (e) => {
+                isDragging = true;
+                swipeKnob.classList.remove('knob-snap');
+                swipeKnob.style.transition = 'none';
+                startX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
+                lastTickX = 0;
+                lastVibrateX = 0;
+                // Resume audio context on user gesture
+                try {
+                    const ctx = getAudioContext();
+                    if (ctx && ctx.state === 'suspended') ctx.resume();
+                } catch(err) {}
+                e.preventDefault();
+            };
+
+            const moveDrag = (e) => {
+                if (!isDragging) return;
+                const x = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
+                let newX = x - startX;
+                const maxScroll = getMaxScroll();
+                if (newX < 0) newX = 0;
+                if (newX > maxScroll) newX = maxScroll;
+
+                // Vibrate on dragging displacement (every 15px for smooth slide haptic feel)
+                if (Math.abs(newX - lastVibrateX) >= 15) {
+                    if (navigator.vibrate) {
+                        navigator.vibrate(12);
+                    }
+                    lastVibrateX = newX;
+                }
+
+                // Play tick sound every 35px
+                if (Math.abs(newX - lastTickX) >= 35) {
+                    playTickSound();
+                    lastTickX = newX;
+                }
+
+                currentX = newX;
+                swipeKnob.style.transform = `translateX(${currentX}px)`;
+                swipeText.style.opacity = 1 - (currentX / maxScroll);
+                if (e.cancelable) e.preventDefault();
+            };
+
+            const endDrag = (e) => {
+                if (!isDragging) return;
+                isDragging = false;
+                const maxScroll = getMaxScroll();
+                if (currentX >= maxScroll * 0.9) {
+                    // Success swipe
+                    swipeKnob.style.transition = 'transform 0.2s ease-out';
+                    swipeKnob.style.transform = `translateX(${maxScroll}px)`;
+                    
+                    // Sound & Particles Chime & Haptic feedback
+                    playSuccessSound();
+                    if (navigator.vibrate) {
+                        navigator.vibrate([60, 40, 80]); // Dual pulse success vibration
+                    }
+                    const rect = swipeKnob.getBoundingClientRect();
+                    triggerConfetti(rect.left + rect.width/2, rect.top + rect.height/2);
+
+                    setTimeout(() => {
+                        openModal(new Event('click'));
+                        setTimeout(() => {
+                            swipeKnob.classList.add('knob-snap');
+                            swipeKnob.style.transform = `translateX(0px)`;
+                            swipeText.style.opacity = 1;
+                            currentX = 0;
+                            lastTickX = 0;
+                            lastVibrateX = 0;
+                        }, 500);
+                    }, 150);
+                } else {
+                    // Snap back elastically
+                    swipeKnob.classList.add('knob-snap');
+                    swipeKnob.style.transform = `translateX(0px)`;
+                    swipeText.style.opacity = 1;
+                    currentX = 0;
+                    lastTickX = 0;
+                    lastVibrateX = 0;
+                    playResetSound();
+                    if (navigator.vibrate) {
+                        navigator.vibrate(20); // Quick reset bump vibration
+                    }
+                }
+            };
+
+            swipeKnob.addEventListener('mousedown', startDrag);
+            swipeKnob.addEventListener('touchstart', startDrag, { passive: false });
+
+            window.addEventListener('mousemove', moveDrag, { passive: false });
+            window.addEventListener('touchmove', moveDrag, { passive: false });
+
+            window.addEventListener('mouseup', endDrag);
+            window.addEventListener('touchend', endDrag);
+        }
+    </script>
+</body>
+
+</html>

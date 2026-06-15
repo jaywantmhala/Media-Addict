@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-slate-50">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prarambha Strategy & Marketing Admin - Dashboard</title>
+    
+    <!-- Authentication Guard to prevent flash of content -->
+    <script>
+        if (localStorage.getItem('isAdminLoggedIn') !== 'true') {
+            window.location.replace('index.html');
+        }
+    </script>
+
+    <!-- Google Fonts: Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Outfit', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            red: '#C20E22',
+                            redDark: '#9F0B1A',
+                            blue: '#1E5AD6',
+                            purple: '#7534D4',
+                            magenta: '#C929CC'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .glass-header {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        .toast-animate {
+            animation: slideUpBounce 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+        @keyframes slideUpBounce {
+            0% { transform: translateY(100px) scale(0.9); opacity: 0; }
+            100% { transform: translateY(0) scale(1); opacity: 1; }
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-slate-50/70 text-slate-800 font-sans antialiased relative">
+    
+    <!-- Toast Success Notification -->
+    <div id="success-toast" class="hidden fixed bottom-10 right-10 z-[100] flex items-center gap-3 bg-emerald-600 text-white px-5 py-3.5 rounded-2xl shadow-xl toast-animate">
+        <div class="bg-white/20 p-1 rounded-full">
+            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+            </svg>
+        </div>
+        <span id="toast-message" class="font-bold text-sm tracking-wide">Lead booking successfully deleted.</span>
+    </div>
+
+    <!-- Custom Delete Confirmation Dialog Modal -->
+    <div id="delete-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4 transition-all duration-200">
+        <div class="bg-white border border-slate-200 w-full max-w-md rounded-3xl p-6 shadow-2xl scale-95 transition-transform duration-300">
+            <div class="flex items-center gap-3.5 text-amber-600 mb-4 bg-amber-50 p-3 rounded-2xl border border-amber-200/60">
+                <svg class="w-8 h-8 shrink-0 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                </svg>
+                <div>
+                    <h4 class="font-extrabold text-slate-900">Confirm Deletion</h4>
+                    <p class="text-xs text-slate-500">This action cannot be undone.</p>
+                </div>
+            </div>
+
+            <p class="text-slate-600 text-sm leading-relaxed mb-6 font-medium">
+                Are you sure you want to delete the booking for <strong id="delete-target-name" class="text-slate-900 font-bold">""</strong>? This will permanently remove them from the pipeline database.
+            </p>
+
+            <div class="flex items-center gap-3 justify-end">
+                <button
+                    id="delete-cancel-btn"
+                    onclick="closeDeleteModal()"
+                    class="px-4 py-2.5 bg-slate-100 hover:bg-slate-200 border border-slate-200 rounded-xl text-slate-700 text-xs md:text-sm font-bold transition-all"
+                >
+                    Cancel
+                </button>
+                <button
+                    id="delete-confirm-btn"
+                    onclick="performDelete()"
+                    class="px-4 py-2.5 bg-brand-red hover:bg-brand-redDark text-white rounded-xl text-xs md:text-sm font-bold transition-all shadow-md flex items-center gap-2"
+                >
+                    Yes, Delete
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation Header -->
+    <header class="border-b border-slate-200/80 glass-header sticky top-0 z-40 px-6 py-4 shadow-sm">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            
+            <!-- Branding -->
+            <div class="flex items-center gap-4">
+                <img 
+                    src="../images/Prarambha Logo.png" 
+                    alt="Prarambha Logo" 
+                    class="h-16 md:h-20 w-auto object-contain transition-transform hover:scale-105 duration-300"
+                    id="brand-logo"
+                    onerror="handleLogoError()"
+                />
+                <div class="flex flex-col">
+                    <h1 class="text-2xl md:text-3xl font-black bg-gradient-to-r from-brand-blue via-brand-purple to-brand-magenta bg-clip-text text-transparent tracking-tight">
+                        PRARAMBHA
+                    </h1>
+                    <p class="text-[10px] text-slate-400 font-bold tracking-widest uppercase">Strategy & Marketing Admin</p>
+                </div>
+            </div>
+
+            <!-- Header Controls -->
+            <div class="flex items-center gap-3">
+                <button 
+                    onclick="fetchBookings()"
+                    class="p-2.5 text-slate-500 hover:text-brand-red hover:bg-slate-100 rounded-xl transition-all"
+                    title="Refresh Data"
+                >
+                    <svg id="refresh-icon" class="w-5 h-5 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 1121.21 7.89H18"></path>
+                    </svg>
+                </button>
+                <button 
+                    onclick="handleLogout()"
+                    class="flex items-center gap-2 bg-slate-100 hover:bg-red-50 hover:text-brand-red border border-slate-200 text-slate-700 px-4 py-2.5 rounded-xl text-sm font-bold transition-all transform active:scale-95"
+                >
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+                    </svg>
+                    <span>Logout</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <div class="max-w-7xl mx-auto px-6 py-10">
+        
+        <!-- Header Text -->
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-10">
+            <div>
+                <h2 class="text-3xl font-extrabold text-slate-900 tracking-tight flex items-center gap-2">
+                    Bookings & Leads Management
+                </h2>
+                <p class="text-slate-500 text-sm mt-1">Real-time database tracking for your W.A.R.P system consultation pipeline.</p>
+            </div>
+        </div>
+
+        <!-- Dynamic Statistics Cards Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+            
+            <!-- Card 1: Total Signups -->
+            <div class="bg-white border border-slate-200/80 p-6 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 flex justify-between items-center relative overflow-hidden group">
+                <div class="absolute top-0 left-0 w-2 h-full bg-brand-blue"></div>
+                <div>
+                    <p class="text-slate-400 text-xs font-bold uppercase tracking-wider">Total Signups</p>
+                    <h3 id="stat-total" class="text-4xl font-black text-slate-900 mt-2">0</h3>
+                    <p class="text-xs text-slate-500 mt-1 flex items-center gap-1">
+                        <span>Direct growth pipeline</span>
+                        <svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+                        </svg>
+                    </p>
+                </div>
+                <div class="w-14 h-14 bg-blue-50 text-brand-blue rounded-2xl flex items-center justify-center text-2xl font-bold group-hover:scale-110 transition-transform duration-300">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Card 2: Completed Payments -->
+            <div class="bg-white border border-slate-200/80 p-6 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 flex justify-between items-center relative overflow-hidden group">
+                <div class="absolute top-0 left-0 w-2 h-full bg-emerald-500"></div>
+                <div>
+                    <p class="text-slate-400 text-xs font-bold uppercase tracking-wider">Completed Payments</p>
+                    <h3 id="stat-completed" class="text-4xl font-black text-emerald-600 mt-2">0</h3>
+                    <p class="text-xs text-emerald-500/80 mt-1 font-semibold">
+                        Conversion Rate: <span id="stat-rate">0%</span>
+                    </p>
+                </div>
+                <div class="w-14 h-14 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center text-2xl font-bold group-hover:scale-110 transition-transform duration-300">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Card 3: Pending Leads -->
+            <div class="bg-white border border-slate-200/80 p-6 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 flex justify-between items-center relative overflow-hidden group">
+                <div class="absolute top-0 left-0 w-2 h-full bg-brand-red"></div>
+                <div>
+                    <p class="text-slate-400 text-xs font-bold uppercase tracking-wider">Pending/Initiated</p>
+                    <h3 id="stat-pending" class="text-4xl font-black text-brand-red mt-2">0</h3>
+                    <p class="text-xs text-slate-500 mt-1">Requires follow-up outreach</p>
+                </div>
+                <div class="w-14 h-14 bg-red-50 text-brand-red rounded-2xl flex items-center justify-center text-2xl font-bold group-hover:scale-110 transition-transform duration-300">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                </div>
+            </div>
+        </div>
+
+        <!-- Connection Error Banner -->
+        <div id="error-banner" class="hidden p-4 bg-red-50 border border-red-200 text-brand-red rounded-2xl text-center mb-8 font-semibold animate-pulse shadow-sm">
+            Database connection failed. Please ensure the server is active.
+        </div>
+
+        <!-- Controls: Filters and Search -->
+        <div class="bg-white border border-slate-200/80 p-5 rounded-3xl shadow-sm mb-6 flex flex-col lg:flex-row justify-between items-stretch lg:items-center gap-4">
+            
+            <!-- Dynamic Filters -->
+            <div class="inline-flex bg-slate-100/80 p-1.5 rounded-xl border border-slate-200 shrink-0">
+                <button
+                    id="filter-all"
+                    onclick="setFilter('all')"
+                    class="px-4 py-2 rounded-lg text-xs md:text-sm font-extrabold transition-all duration-200 bg-brand-red text-white shadow-md"
+                >
+                    All Leads (0)
+                </button>
+                <button
+                    id="filter-completed"
+                    onclick="setFilter('completed')"
+                    class="px-4 py-2 rounded-lg text-xs md:text-sm font-extrabold transition-all duration-200 text-slate-500 hover:text-slate-800"
+                >
+                    Completed (0)
+                </button>
+                <button
+                    id="filter-pending"
+                    onclick="setFilter('pending')"
+                    class="px-4 py-2 rounded-lg text-xs md:text-sm font-extrabold transition-all duration-200 text-slate-500 hover:text-slate-800"
+                >
+                    Pending (0)
+                </button>
+            </div>
+
+            <!-- Date Filter -->
+            <div class="flex items-center gap-2 bg-slate-50 border border-slate-200 rounded-2xl px-3.5 py-2 shrink-0 shadow-sm">
+                <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Call Date:</span>
+                <input
+                    type="date"
+                    id="date-filter"
+                    onchange="handleDateFilter(event)"
+                    class="bg-transparent border-0 text-slate-800 focus:outline-none text-xs md:text-sm font-extrabold cursor-pointer"
+                />
+                <button
+                    id="clear-date-btn"
+                    onclick="clearDateFilter()"
+                    class="hidden text-slate-400 hover:text-brand-red transition-all pl-1"
+                    title="Clear Date Filter"
+                >
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Live Search Bar -->
+            <div class="relative w-full lg:max-w-md">
+                <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+                </span>
+                <input
+                    type="text"
+                    id="search-input"
+                    oninput="handleSearch(event)"
+                    placeholder="Search by lead name, phone, or city..."
+                    class="w-full bg-slate-50 border border-slate-200 text-slate-800 rounded-2xl pl-11 pr-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-brand-red focus:border-transparent transition-all placeholder:text-slate-400 font-medium"
+                />
+            </div>
+        </div>
+
+        <!-- Database List / Table Grid Wrapper -->
+        <div id="table-container" class="bg-white border border-slate-200 rounded-3xl shadow-sm overflow-hidden">
+            
+            <!-- Loading Indicator -->
+            <div id="loading-state" class="flex flex-col items-center justify-center py-24 gap-4">
+                <svg class="animate-spin h-10 w-10 text-brand-red" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                <p class="text-slate-500 text-sm font-bold animate-pulse">Fetching leads database...</p>
+            </div>
+
+            <!-- Empty Records State -->
+            <div id="empty-state" class="hidden text-center py-20 flex flex-col items-center justify-center p-6">
+                <div class="w-16 h-16 bg-slate-100 text-slate-400 rounded-full flex items-center justify-center mb-4 animate-bounce">
+                    <svg class="w-8 h-8 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0a2 2 0 01-2 2H6a2 2 0 01-2-2m16 0V9a2 2 0 00-2-2H6a2 2 0 00-2 2v4h16z"></path>
+                    </svg>
+                </div>
+                <h3 class="text-lg font-bold text-slate-800">No matching bookings found</h3>
+                <p class="text-slate-500 text-sm max-w-sm mt-1">There are no records matching your current filter status or search keyword.</p>
+            </div>
+
+            <!-- Data Table -->
+            <div id="table-wrapper" class="hidden overflow-x-auto">
+                <table class="w-full text-left border-collapse border-spacing-0">
+                    <thead>
+                        <tr class="border-b border-slate-200 text-slate-500 text-xs font-bold uppercase tracking-wider bg-slate-50/70">
+                            <th class="p-5 w-20">ID</th>
+                            <th class="p-5">Lead Profile</th>
+                            <th class="p-5">Contact Details</th>
+                            <th class="p-5">City</th>
+                            <th class="p-5">Booking Date</th>
+                            <th class="p-5">Payment Status</th>
+                            <th class="p-5">Created At</th>
+                            <th class="p-5 w-20 text-center">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="bookings-table-body" class="divide-y divide-slate-100 text-sm text-slate-700">
+                        <!-- Rendered via JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global variables for dashboard state
+        let bookings = [];
+        let filter = 'all';
+        let searchTerm = '';
+        let dateFilter = '';
+        let targetDeleteId = null;
+
+        // Determine API base URL dynamically (use local PHP server if opened via file://)
+        const apiBaseUrl = window.location.protocol === 'file:' ? 'http://localhost:8000/' : '../';
+
+        // Fallback Logo helper
+        function handleLogoError() {
+            document.getElementById('brand-logo').style.display = 'none';
+        }
+
+        // Logout
+        function handleLogout() {
+            localStorage.removeItem('isAdminLoggedIn');
+            window.location.replace('index.html');
+        }
+
+        // Fetch bookings database from PHP API
+        async function fetchBookings() {
+            const refreshIcon = document.getElementById('refresh-icon');
+            const errorBanner = document.getElementById('error-banner');
+            const loadingState = document.getElementById('loading-state');
+            const emptyState = document.getElementById('empty-state');
+            const tableWrapper = document.getElementById('table-wrapper');
+
+            // Rotate refresh icon
+            if (refreshIcon) refreshIcon.classList.add('animate-spin');
+            errorBanner.classList.add('hidden');
+            loadingState.classList.remove('hidden');
+            tableWrapper.classList.add('hidden');
+            emptyState.classList.add('hidden');
+
+            try {
+                // Fetch from the PHP backend script (uses absolute URL if file://, otherwise relative)
+                const response = await fetch(apiBaseUrl + 'get_bookings.php');
+                
+                if (!response.ok) {
+                    throw new Error(`Server returned status code ${response.status}`);
+                }
+
+                const data = await response.json();
+                
+                if (data.status === 'success') {
+                    bookings = data.bookings || [];
+                    renderDashboard();
+                } else {
+                    showError(`<div class="p-2 font-bold">${data.message || 'Failed to fetch bookings data'}</div>`);
+                }
+            } catch (err) {
+                console.error(err);
+                if (window.location.protocol === 'file:') {
+                    showError(`
+                        <div class="flex flex-col items-center gap-3 p-4 text-center">
+                            <div class="text-amber-500 text-3xl">⚠️</div>
+                            <h4 class="text-slate-900 font-extrabold text-lg">Unable to Connect to Local PHP Server</h4>
+                            <p class="text-slate-600 text-sm max-w-lg font-medium leading-relaxed">
+                                You are viewing this dashboard directly via the local file system (file://). 
+                                To load your bookings, you must ensure your local PHP development server is active and running on port 8000:
+                            </p>
+                            <div class="bg-slate-100 p-3.5 rounded-2xl font-mono text-[11px] text-slate-700 text-left border border-slate-200 w-full max-w-md">
+                                <span class="text-slate-400 font-bold block mb-1">RUN IN PORTABLE TERMINAL (within project directory):</span>
+                                <span class="text-emerald-700 font-bold">php -S localhost:8000</span>
+                            </div>
+                            <p class="text-slate-400 text-xs mt-1">Once the PHP server is started, you can refresh this page and it will load successfully.</p>
+                        </div>
+                    `);
+                } else {
+                    showError(`
+                        <div class="p-3 text-center">
+                            <p class="font-extrabold">Error connecting to PHP backend database server.</p>
+                            <p class="text-xs font-semibold opacity-90 mt-1">Details: ${err.message || err}. Please ensure your local MySQL and PHP servers are running.</p>
+                        </div>
+                    `);
+                }
+            } finally {
+                if (refreshIcon) {
+                    setTimeout(() => refreshIcon.classList.remove('animate-spin'), 300);
+                }
+                loadingState.classList.add('hidden');
+            }
+        }
+
+        // Show Error Banner
+        function showError(msg) {
+            const errorBanner = document.getElementById('error-banner');
+            errorBanner.innerHTML = msg;
+            errorBanner.classList.remove('hidden');
+            document.getElementById('loading-state').classList.add('hidden');
+        }
+
+        // Set active filters and re-render
+        function setFilter(newFilter) {
+            filter = newFilter;
+            
+            // Update filter buttons styling
+            const buttons = {
+                all: document.getElementById('filter-all'),
+                completed: document.getElementById('filter-completed'),
+                pending: document.getElementById('filter-pending')
+            };
+
+            Object.keys(buttons).forEach(key => {
+                if (key === newFilter) {
+                    buttons[key].className = "px-4 py-2 rounded-lg text-xs md:text-sm font-extrabold transition-all duration-200 bg-brand-red text-white shadow-md";
+                } else {
+                    buttons[key].className = "px-4 py-2 rounded-lg text-xs md:text-sm font-extrabold transition-all duration-200 text-slate-500 hover:text-slate-800";
+                }
+            });
+
+            renderDashboard();
+        }
+
+        // Handle typing search
+        function handleSearch(event) {
+            searchTerm = event.target.value.toLowerCase().trim();
+            renderDashboard();
+        }
+
+        // Dynamic Avatar Color Picker
+        function getAvatarStyle(name) {
+            const colors = [
+                'bg-blue-50 text-blue-700 border border-blue-100',
+                'bg-purple-50 text-purple-700 border border-purple-100',
+                'bg-pink-50 text-pink-700 border border-pink-100',
+                'bg-rose-50 text-rose-700 border border-rose-100',
+                'bg-indigo-50 text-indigo-700 border border-indigo-100'
+            ];
+            const index = name ? name.charCodeAt(0) % colors.length : 0;
+            return colors[index];
+        }
+
+        // Date and Time Formatter
+        function formatDateTime(dateStr) {
+            if (!dateStr) return { date: '-', time: '-' };
+            const dateObj = new Date(dateStr.replace(/-/g, "/")); // Cross-browser parsing helper
+            
+            // Check for invalid date
+            if (isNaN(dateObj.getTime())) {
+                return { date: dateStr, time: '' };
+            }
+
+            const dateOptions = { year: 'numeric', month: 'numeric', day: 'numeric' };
+            const timeOptions = { hour: '2-digit', minute: '2-digit' };
+            
+            return {
+                date: dateObj.toLocaleDateString(undefined, dateOptions),
+                time: dateObj.toLocaleTimeString(undefined, timeOptions)
+            };
+        }
+
+        // Render listings and metrics
+        function renderDashboard() {
+            const tableBody = document.getElementById('bookings-table-body');
+            const emptyState = document.getElementById('empty-state');
+            const tableWrapper = document.getElementById('table-wrapper');
+
+            // Count Statistics
+            const totalSignups = bookings.length;
+            const completedCount = bookings.filter(b => 
+                (b.payment_status || '').toLowerCase().includes('success') || 
+                (b.payment_status || '').toLowerCase().includes('completed')
+            ).length;
+            const pendingCount = totalSignups - completedCount;
+            const conversionRate = totalSignups > 0 ? Math.round((completedCount / totalSignups) * 100) : 0;
+
+            // Update stats cards in UI
+            document.getElementById('stat-total').textContent = totalSignups;
+            document.getElementById('stat-completed').textContent = completedCount;
+            document.getElementById('stat-rate').textContent = `${conversionRate}%`;
+            document.getElementById('stat-pending').textContent = pendingCount;
+
+            // Update buttons count labels
+            document.getElementById('filter-all').textContent = `All Leads (${totalSignups})`;
+            document.getElementById('filter-completed').textContent = `Completed (${completedCount})`;
+            document.getElementById('filter-pending').textContent = `Pending (${pendingCount})`;
+
+            // Filter List
+            const filtered = bookings.filter(booking => {
+                const isCompleted = (booking.payment_status || '').toLowerCase().includes('success') || 
+                                    (booking.payment_status || '').toLowerCase().includes('completed');
+                
+                const matchesFilter = filter === 'all' || 
+                                     (filter === 'completed' && isCompleted) || 
+                                     (filter === 'pending' && !isCompleted);
+                
+                const matchesSearch = !searchTerm || 
+                                      (booking.name || '').toLowerCase().includes(searchTerm) ||
+                                      (booking.mobile || '').includes(searchTerm) ||
+                                      (booking.city || '').toLowerCase().includes(searchTerm);
+
+                const matchesDate = !dateFilter || booking.booking_date === dateFilter;
+
+                return matchesFilter && matchesSearch && matchesDate;
+            });
+
+            // Sort logic: Completed first, Pending second, sub-sort by date (latest first)
+            const sorted = [...filtered].sort((a, b) => {
+                const aCompleted = (a.payment_status || '').toLowerCase().includes('success') || 
+                                   (a.payment_status || '').toLowerCase().includes('completed');
+                const bCompleted = (b.payment_status || '').toLowerCase().includes('success') || 
+                                   (b.payment_status || '').toLowerCase().includes('completed');
+                
+                if (aCompleted && !bCompleted) return -1;
+                if (!aCompleted && bCompleted) return 1;
+
+                const aTime = a.created_at ? new Date(a.created_at.replace(/-/g, "/")).getTime() : 0;
+                const bTime = b.created_at ? new Date(b.created_at.replace(/-/g, "/")).getTime() : 0;
+                return bTime - aTime;
+            });
+
+            // Check if empty
+            if (sorted.length === 0) {
+                tableWrapper.classList.add('hidden');
+                emptyState.classList.remove('hidden');
+                return;
+            }
+
+            emptyState.classList.add('hidden');
+            tableWrapper.classList.remove('hidden');
+
+            // Render Rows
+            tableBody.innerHTML = sorted.map(booking => {
+                const isCompleted = (booking.payment_status || '').toLowerCase().includes('success') || 
+                                    (booking.payment_status || '').toLowerCase().includes('completed');
+                
+                const avatarInitials = booking.name ? booking.name.charAt(0).toUpperCase() : '?';
+                const avatarStyle = getAvatarStyle(booking.name);
+                const dateTime = formatDateTime(booking.created_at);
+
+                return `
+                    <tr class="transition-colors group ${isCompleted ? 'bg-emerald-50/10 hover:bg-emerald-50/20' : 'hover:bg-slate-50/40'}">
+                        <!-- ID -->
+                        <td class="p-5 text-slate-400 font-mono font-medium">
+                            #${booking.id}
+                        </td>
+                        
+                        <!-- Lead Profile -->
+                        <td class="p-5">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm tracking-wide shadow-inner ${avatarStyle}">
+                                    ${avatarInitials}
+                                </div>
+                                <div>
+                                    <p class="font-extrabold text-slate-900 group-hover:text-brand-red transition-colors duration-200">
+                                        ${booking.name || 'Anonymous User'}
+                                    </p>
+                                    <span class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Business Owner</span>
+                                </div>
+                            </div>
+                        </td>
+
+                        <!-- Contact Details -->
+                        <td class="p-5">
+                            <div class="flex flex-col gap-1">
+                                <a 
+                                    href="tel:${booking.mobile}" 
+                                    class="text-slate-700 font-mono font-bold hover:text-brand-red transition-colors flex items-center gap-1.5"
+                                >
+                                    <svg class="w-3.5 h-3.5 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.94.725l.548 2.2a1 1 0 01-.321.988l-1.305.98a10.582 10.582 0 004.872 4.872l.98-1.305a1 1 0 01.988-.321l2.2.548a1 1 0 01.725.94V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+                                    </svg>
+                                    ${booking.mobile}
+                                </a>
+                            </div>
+                        </td>
+
+                        <!-- City -->
+                        <td class="p-5">
+                            <div class="flex items-center gap-1.5 text-slate-650 font-semibold">
+                                <svg class="w-4 h-4 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                </svg>
+                                <span>${booking.city || '-'}</span>
+                            </div>
+                        </td>
+
+                        <!-- Booking Date -->
+                        <td class="p-5 font-mono text-xs font-bold text-slate-700">
+                            ${booking.booking_date ? booking.booking_date : '<span class="text-slate-400 font-medium font-sans text-xs">-</span>'}
+                        </td>
+
+                        <!-- Payment Status badge -->
+                        <td class="p-5">
+                            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold border transition-colors ${
+                                isCompleted
+                                  ? 'bg-emerald-50 text-emerald-700 border-emerald-200/60'
+                                  : 'bg-red-50 text-brand-red border-red-200/60'
+                            }">
+                                <span class="w-1.5 h-1.5 rounded-full ${
+                                    isCompleted ? 'bg-emerald-500' : 'bg-brand-red'
+                                }"></span>
+                                ${isCompleted ? 'Completed' : 'Pending'}
+                            </span>
+                        </td>
+
+                        <!-- Created At Date/Time -->
+                        <td class="p-5 text-slate-500 font-medium">
+                            <div class="flex flex-col">
+                                <span>${dateTime.date}</span>
+                                <span class="text-xs text-slate-400 mt-0.5">${dateTime.time}</span>
+                            </div>
+                        </td>
+
+                        <!-- Action Column (Delete) -->
+                        <td class="p-5 text-center">
+                            <button
+                                onclick="confirmDelete(${booking.id}, '${booking.name.replace(/'/g, "\\'")}')"
+                                class="p-2 text-slate-400 hover:text-brand-red hover:bg-red-50 rounded-xl transition-all"
+                                title="Delete Lead"
+                            >
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                </svg>
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        // Trigger Deletion Confirmation Modal
+        function confirmDelete(id, name) {
+            targetDeleteId = id;
+            document.getElementById('delete-target-name').textContent = `"${name || 'Anonymous'}"`;
+            
+            const modal = document.getElementById('delete-modal');
+            modal.classList.remove('hidden');
+            // Animate scale up
+            setTimeout(() => {
+                modal.querySelector('div').classList.remove('scale-95');
+                modal.querySelector('div').classList.add('scale-100');
+            }, 10);
+        }
+
+        // Close Deletion Modal
+        function closeDeleteModal() {
+            const modal = document.getElementById('delete-modal');
+            modal.querySelector('div').classList.remove('scale-100');
+            modal.querySelector('div').classList.add('scale-95');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                targetDeleteId = null;
+            }, 150);
+        }
+
+        // Perform backend deletion calling delete_booking.php
+        async function performDelete() {
+            if (!targetDeleteId) return;
+
+            const confirmBtn = document.getElementById('delete-confirm-btn');
+            const cancelBtn = document.getElementById('delete-cancel-btn');
+            
+            // Set loading state on button
+            confirmBtn.disabled = true;
+            cancelBtn.disabled = true;
+            confirmBtn.textContent = 'Deleting...';
+
+            try {
+                const response = await fetch(apiBaseUrl + 'delete_booking.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ id: targetDeleteId })
+                });
+                
+                const data = await response.json();
+                
+                if (data.status === 'success') {
+                    // Remove locally
+                    bookings = bookings.filter(b => b.id !== targetDeleteId);
+                    
+                    // Show success toast
+                    showToast('Lead booking successfully deleted.');
+                    
+                    // Refresh listing
+                    renderDashboard();
+                } else {
+                    alert(data.message || 'Failed to delete booking.');
+                }
+            } catch (err) {
+                console.error(err);
+                alert('Network error. Failed to delete booking. Please try again.');
+            } finally {
+                confirmBtn.disabled = false;
+                cancelBtn.disabled = false;
+                confirmBtn.textContent = 'Yes, Delete';
+                closeDeleteModal();
+            }
+        }
+
+        // Toast Notification Trigger
+        function showToast(message) {
+            const toast = document.getElementById('success-toast');
+            document.getElementById('toast-message').textContent = message;
+            
+            toast.classList.remove('hidden');
+            
+            // Auto dismiss toast after 3 seconds
+            setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 3000);
+        }
+
+        // Date Filtering handlers
+        function handleDateFilter(e) {
+            dateFilter = e.target.value;
+            const clearBtn = document.getElementById('clear-date-btn');
+            if (dateFilter) {
+                clearBtn.classList.remove('hidden');
+            } else {
+                clearBtn.classList.add('hidden');
+            }
+            renderDashboard();
+        }
+
+        function clearDateFilter() {
+            dateFilter = '';
+            document.getElementById('date-filter').value = '';
+            document.getElementById('clear-date-btn').classList.add('hidden');
+            renderDashboard();
+        }
+
+        // Document Ready lifecycle hook
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchBookings();
+        });
+    </script>
+</body>
+</html>
