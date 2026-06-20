@@ -50,6 +50,9 @@
         .animate-marquee {
             animation: marquee 25s linear infinite;
         }
+        .animate-marquee-slow {
+            animation: marquee 60s linear infinite;
+        }
         .mask-gradient-x {
             mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
             -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
@@ -480,7 +483,7 @@
 <body class="antialiased pb-24">
 
     <!-- Top Notice Bar -->
-    <div class="w-full py-2 bg-accent text-white text-center font-black text-xs md:text-sm tracking-wide z-50 sticky top-0 shadow-sm">
+    <div class="w-full py-4 bg-accent text-white text-center font-black text-xs md:text-sm tracking-wide z-50 sticky top-0 shadow-sm">
         <i class="fa-solid fa-rocket text-yellow-300 animate-bounce mr-1.5"></i> Performance Marketing द्वारे तुमचा व्यवसाय वेगाने वाढवा
     </div>
 
@@ -503,7 +506,7 @@
     </header>
 
     <!-- Hero Section (1 – WHITE) -->
-    <section class="section-light container mx-auto px-4 py-12 lg:py-20 max-w-5xl text-center flex flex-col items-center">
+    <section class="section-light container mx-auto px-4 py-8 lg:py-12 max-w-5xl text-center flex flex-col items-center">
         
         <!-- Badge -->
         <div class="hero-badge inline-flex items-center gap-2 bg-accent/5 px-4 py-2 rounded-full border border-accent/10 mb-6">
@@ -522,9 +525,8 @@
         <!-- Paragraphs (Grid) -->
         <div class="hero-para text-base md:text-lg leading-relaxed grid grid-cols-1 md:grid-cols-2 gap-6 mt-8 max-w-4xl text-left w-full">
             <p class="theme-text-muted font-bold border border-accent/30 bg-accent/5 rounded-xl p-5 shadow-sm">
-                Facebook आणि Instagram Ads च्या मदतीने तुमच्या व्यवसायासाठी अधिक Leads, अधिक Sales and दीर्घकालीन Growth निर्माण करा.
-            </p>
-            <p class="theme-text-muted text-sm md:text-base border border-accent/30 bg-accent/5 rounded-xl p-5 shadow-sm flex items-center">
+Facebook आणि Instagram Ads च्या मदतीने तुमच्या व्यवसायासाठी High-Quality Leads, अधिक Sales आणि दीर्घकालीन Growth निर्माण करा.            </p>
+            <p class="theme-text-muted text-sm md:text-base border border-accent/30 bg-accent/5 rounded-xl p-5 shadow-sm flex items-center font-bold">
                 आम्ही फक्त Ads Run करत नाही, तर संपूर्ण Performance Marketing Strategy, Tracking आणि Optimization द्वारे तुमच्या व्यवसायाला पुढील स्तरावर घेऊन जातो.
             </p>
         </div>
@@ -571,13 +573,13 @@
     </section>
 
     <!-- Problem / Hook Section -->
-    <section class="always-dark py-12 border-y border-slate-800">
+    <section class="always-dark py-8 border-y border-slate-800">
         <div class="container mx-auto px-4 max-w-4xl text-center">
             <h2 class="problem-title text-3xl md:text-4xl font-black mb-4">
                 <span class="gradient-text font-black">🎯 तुमच्या व्यवसायाला या समस्या आहेत का?</span>
             </h2>
 
-            <p class="problem-title text-lg text-gray-300 mb-8 font-medium">जर खालीलपैकी कोणतीही समस्या असेल, तर तुम्हाला योग्य Performance Marketing Strategy ची गरज आहे:</p>
+            <p class="problem-title text-lg text-gray-300 mb-8 font-medium">Marketing Budget खर्च होतो, पण ROI स्पष्ट दिसत नाही ❌ Leads मिळतात, पण Qualified Leads मिळत नाहीत?</p>
 
             <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-4 text-left">
                 <div class="problem-card glass-card p-5 rounded-2xl border border-white/5">
@@ -609,7 +611,7 @@
     </section>
 
     <!-- Comparison / Growth System Section -->
-    <section class="section-light py-16 container mx-auto px-4 max-w-5xl">
+    <section class="section-light py-10 container mx-auto px-4 max-w-5xl">
         <div class="compare-header text-center mb-10">
             <h2 class="text-3xl md:text-5xl font-black mb-4">आम्ही फक्त Ads Run करत नाही...</h2>
             <p class="text-lg text-gray-600 dark:text-gray-400 font-bold max-w-2xl mx-auto">💡 आम्ही तुमच्या व्यवसायासाठी संपूर्ण <span class="text-accent">Growth System</span> तयार करतो.</p>
@@ -649,7 +651,7 @@
                     Our Growth System</div>
                 <h3 class="text-2xl font-black text-accent mb-6 flex items-center gap-3">
                     <i class="fa-solid fa-fire text-accent text-2xl animate-pulse"></i>
-                    Media Addict System
+                    Media Addict Studio System
                 </h3>
                 <ul class="space-y-4">
                     <li class="flex items-start gap-3 font-bold">
@@ -690,13 +692,13 @@
     </section>
 
     <!-- Services Section -->
-    <section class="always-dark py-20 border-t border-slate-800">
+    <section class="always-dark py-12 border-t border-slate-800">
         <div class="container mx-auto px-4 max-w-6xl">
             <div class="warp-header text-center mb-16">
                 <h2 class="text-3xl md:text-5xl font-black mb-4 text-white">
                     <i class="fa-solid fa-chart-line text-accent mr-2"></i> आमच्या <span class="gradient-text font-black">सेवा</span>
                 </h2>
-                <p class="text-lg text-gray-400">आम्ही तुमच्या व्यवसायाच्या शाश्वत वाढीसाठी खालील सेवा पुरवतो</p>
+                <p class="text-lg text-gray-400">आम्ही तुमच्या व्यवसायाला अधिक Leads, Sales आणि Revenue मिळवून देण्यासाठी खालील सेवा पुरवतो.</p>
             </div>
 
             <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -729,7 +731,7 @@
     </section>
 
     <!-- Workflow Section -->
-    <section class="section-light py-20 border-t border-gray-200 dark:border-accent/10">
+    <section class="section-light py-12 border-t border-gray-200 dark:border-accent/10">
         <div class="container mx-auto px-4 max-w-5xl">
             <div class="compare-header text-center mb-16">
                 <h2 class="text-3xl md:text-5xl font-black mb-4"><i class="fa-solid fa-gears text-accent mr-2"></i> आमची कार्यपद्धती</h2>
@@ -742,7 +744,7 @@
                     <div class="absolute -left-[17px] top-1.5 bg-accent text-white w-8 h-8 rounded-full flex items-center justify-center font-black text-sm border-4 border-white dark:border-[#030712] shadow-md">1</div>
                     <div class="glass-card p-6 rounded-2xl shadow-sm">
                         <h3 class="text-xl font-extrabold text-accent mb-2">Step 1 – Business Analysis</h3>
-                        <p class="text-gray-700 dark:text-gray-300 font-medium">आम्ही तुमचा व्यवसाय, प्रॉडक्ट्स/सेवा, लक्ष्यित ग्राहक (Audience) आणि तुमची उद्दिष्टे सखोल समजून घेतो.</p>
+                        <p class="text-gray-700 dark:text-gray-300 font-medium">आम्ही सर्वप्रथम तुमचा व्यवसाय, प्रॉडक्ट्स/सेवा, Target Audience, स्पर्धक आणि व्यवसायाची उद्दिष्टे समजून घेतो.</p>
                     </div>
                 </div>
                 <!-- Step 2 -->
@@ -750,7 +752,7 @@
                     <div class="absolute -left-[17px] top-1.5 bg-accent text-white w-8 h-8 rounded-full flex items-center justify-center font-black text-sm border-4 border-white dark:border-[#030712] shadow-md">2</div>
                     <div class="glass-card p-6 rounded-2xl shadow-sm">
                         <h3 class="text-xl font-extrabold text-accent mb-2">Step 2 – Strategy Planning</h3>
-                        <p class="text-gray-700 dark:text-gray-300 font-medium">तुमच्या व्यवसायाच्या गरजेनुसार आम्ही एक सानुकूल (Custom) Growth Strategy, बजेट आणि फनेल प्लॅनिंग तयार करतो.</p>
+                        <p class="text-gray-700 dark:text-gray-300 font-medium">तुमच्या व्यवसायाच्या गरजेनुसार Custom Growth Strategy, योग्य Budget Allocation आणि प्रभावी Funnel Planning तयार करतो.</p>
                     </div>
                 </div>
                 <!-- Step 3 -->
@@ -758,7 +760,7 @@
                     <div class="absolute -left-[17px] top-1.5 bg-accent text-white w-8 h-8 rounded-full flex items-center justify-center font-black text-sm border-4 border-white dark:border-[#030712] shadow-md">3</div>
                     <div class="glass-card p-6 rounded-2xl shadow-sm">
                         <h3 class="text-xl font-extrabold text-accent mb-2">Step 3 – Campaign Launch</h3>
-                        <p class="text-gray-700 dark:text-gray-300 font-medium">प्रोफेशनल ॲड क्रिएटिव्ह्ज, कॉपीरायटिंग, अचूक ऑडियन्स टार्गेटिंग आणि ट्रॅकिंग सेटअपसह जाहिराती लाइव्ह करतो.</p>
+                        <p class="text-gray-700 dark:text-gray-300 font-medium">ठरवलेल्या रणनीतीनुसार Meta Ads Campaigns Setup करून सर्वोत्तम परिणामांसाठी त्यांचे सतत ऑप्टिमायझेशन करतो.</p>
                     </div>
                 </div>
                 <!-- Step 4 -->
@@ -766,23 +768,23 @@
                     <div class="absolute -left-[17px] top-1.5 bg-accent text-white w-8 h-8 rounded-full flex items-center justify-center font-black text-sm border-4 border-white dark:border-[#030712] shadow-md">4</div>
                     <div class="glass-card p-6 rounded-2xl shadow-sm">
                         <h3 class="text-xl font-extrabold text-accent mb-2">Step 4 – Optimization</h3>
-                        <p class="text-gray-700 dark:text-gray-300 font-medium">जाहिरातींच्या परफॉर्मन्सचे रोज विश्लेषण करून क्रिएटिव्ह्ज, टार्गेटिंग आणि बजेटमध्ये आवश्यक सुधारणा करतो.</p>
+                        <p class="text-gray-700 dark:text-gray-300 font-medium">Enquiries आणि Leads च्या Quality चे विश्लेषण करून Campaigns मध्ये आवश्यक ते बदल आणि सुधारणा करतो.</p>
                     </div>
                 </div>
                 <!-- Step 5 -->
-                <div class="relative pl-8 md:pl-12">
+                <!-- <div class="relative pl-8 md:pl-12">
                     <div class="absolute -left-[17px] top-1.5 bg-accent text-white w-8 h-8 rounded-full flex items-center justify-center font-black text-sm border-4 border-white dark:border-[#030712] shadow-md">5</div>
                     <div class="glass-card p-6 rounded-2xl shadow-sm">
                         <h3 class="text-xl font-extrabold text-accent mb-2">Step 5 – Scale & Growth</h3>
                         <p class="text-gray-700 dark:text-gray-300 font-medium">फायदेशीर आरओआय (ROI) टिकवून ठेवत जाहिरातींचे बजेट वाढवतो आणि व्यवसायाला मोठ्या स्तरावर (Scale) घेऊन जातो.</p>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
     </section>
 
     <!-- Why Choose Us Section -->
-    <section class="always-dark py-20 border-t border-slate-800">
+    <section class="always-dark py-12 border-t border-slate-800">
         <div class="container mx-auto px-4 max-w-6xl">
             <div class="warp-header text-center mb-16">
                 <h2 class="text-3xl md:text-5xl font-black mb-4 text-white">
@@ -845,7 +847,7 @@
     </section>
 
     <!-- Social Proof / Brands Showcase -->
-    <section class="section-light py-16 border-y border-gray-200 dark:border-accent/10 relative w-full overflow-hidden">
+    <section class="section-light py-10 border-y border-gray-200 dark:border-accent/10 relative w-full overflow-hidden">
         <div class="container mx-auto px-4 max-w-5xl text-center mb-10">
             <h3 class="text-xl md:text-2xl font-black uppercase tracking-wider text-accent mb-2">Our Clients & Partners</h3>
             <p class="text-gray-500 dark:text-gray-400 text-sm md:text-base max-w-xl mx-auto font-bold">विविध ब्रँड्स ज्यांचा मीडिया ॲडिक्टच्या सिस्टीमवर पूर्ण विश्वास आहे</p>
@@ -918,6 +920,85 @@
         </div>
     </section>
 
+    <!-- Video Testimonials Section -->
+    <section class="always-dark py-12 border-t border-slate-800 bg-[#030712] relative overflow-hidden">
+        <div class="container mx-auto px-4 max-w-5xl text-center">
+            
+            <!-- Badge -->
+            <div class="inline-flex items-center gap-2 bg-purple-500/10 border border-purple-500/20 px-4 py-1.5 rounded-full mb-6">
+                <i class="fa-solid fa-video text-purple-400 text-sm"></i>
+                <span class="text-xs font-bold uppercase tracking-wider text-purple-300 font-sans">Video Testimonials</span>
+            </div>
+
+            <!-- Main Heading -->
+            <h2 class="text-3xl md:text-5xl font-black mb-4 text-white">
+                आमचे <span class="gradient-text font-black">Successful Clients</span> काय म्हणतात?
+            </h2>
+            
+            <!-- Subtitle -->
+            <p class="text-gray-400 text-base md:text-lg mb-12 max-w-2xl mx-auto font-bold">
+                1-to-1 W.A.R.P system मुळे clients ला मिळालेले real results आणि त्यांचे experiences पहा.
+            </p>
+
+            <!-- Video Testimonial Container -->
+            <div class="max-w-md mx-auto bg-slate-900/60 border border-slate-800 p-4 rounded-3xl shadow-2xl hover:border-accent/30 transition-all duration-300">
+                <div class="relative overflow-hidden rounded-2xl aspect-[9/16] w-full max-w-[315px] mx-auto shadow-lg bg-black">
+                    <iframe 
+                        class="w-full h-full"
+                        src="https://www.youtube.com/embed/PL8H_G5xnrA" 
+                        title="Client Video Testimonial" 
+                        frameborder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                        allowfullscreen>
+                    </iframe>
+                </div>
+            </div>
+
+            <!-- More Results Heading -->
+            <div class="mt-12">
+                <h3 class="text-2xl md:text-4xl font-black text-white tracking-wide uppercase inline-block border-b-4 border-accent pb-2">
+                    More Results From Our Clients
+                </h3>
+            </div>
+
+        </div>
+
+        <!-- Client Results Carousel -->
+        <div class="relative w-full overflow-hidden mt-10">
+            <div class="animate-marquee-slow flex gap-6 py-4">
+                <!-- Group 1 -->
+                <div class="flex gap-6 shrink-0">
+                    <img src="images/08.jpg.jpeg" alt="Client Result 8" class="h-[150px] object-contain rounded-2xl shadow-lg border border-slate-800">
+                    <img src="images/09.jpg.jpeg" alt="Client Result 9" class="h-[150px] object-contain rounded-2xl shadow-lg border border-slate-800">
+                    <img src="images/10.jpg.jpeg" alt="Client Result 10" class="h-[150px] object-contain rounded-2xl shadow-lg border border-slate-800">
+                    <img src="images/11.jpg.jpeg" alt="Client Result 11" class="h-[150px] object-contain rounded-2xl shadow-lg border border-slate-800">
+                    <img src="images/12.jpg.jpeg" alt="Client Result 12" class="h-[150px] object-contain rounded-2xl shadow-lg border border-slate-800">
+                    <img src="images/13.jpg.jpeg" alt="Client Result 13" class="h-[150px] object-contain rounded-2xl shadow-lg border border-slate-800">
+                    <img src="images/16.jpg.jpeg" alt="Client Result 16" class="h-[150px] object-contain rounded-2xl shadow-lg border border-slate-800">
+                    <img src="images/17.jpg.jpeg" alt="Client Result 17" class="h-[150px] object-contain rounded-2xl shadow-lg border border-slate-800">
+                    <img src="images/18.jpg.jpeg" alt="Client Result 18" class="h-[150px] object-contain rounded-2xl shadow-lg border border-slate-800">
+                    <img src="images/19.jpg.jpeg" alt="Client Result 19" class="h-[150px] object-contain rounded-2xl shadow-lg border border-slate-800">
+                    <img src="images/20.jpg.jpeg" alt="Client Result 20" class="h-[150px] object-contain rounded-2xl shadow-lg border border-slate-800">
+                </div>
+                <!-- Group 2 (for seamless loop) -->
+                <div class="flex gap-6 shrink-0" aria-hidden="true">
+                    <img src="images/08.jpg.jpeg" alt="Client Result 8" class="h-[150px] object-contain rounded-2xl shadow-lg border border-slate-800">
+                    <img src="images/09.jpg.jpeg" alt="Client Result 9" class="h-[150px] object-contain rounded-2xl shadow-lg border border-slate-800">
+                    <img src="images/10.jpg.jpeg" alt="Client Result 10" class="h-[150px] object-contain rounded-2xl shadow-lg border border-slate-800">
+                    <img src="images/11.jpg.jpeg" alt="Client Result 11" class="h-[150px] object-contain rounded-2xl shadow-lg border border-slate-800">
+                    <img src="images/12.jpg.jpeg" alt="Client Result 12" class="h-[150px] object-contain rounded-2xl shadow-lg border border-slate-800">
+                    <img src="images/13.jpg.jpeg" alt="Client Result 13" class="h-[150px] object-contain rounded-2xl shadow-lg border border-slate-800">
+                    <img src="images/16.jpg.jpeg" alt="Client Result 16" class="h-[150px] object-contain rounded-2xl shadow-lg border border-slate-800">
+                    <img src="images/17.jpg.jpeg" alt="Client Result 17" class="h-[150px] object-contain rounded-2xl shadow-lg border border-slate-800">
+                    <img src="images/18.jpg.jpeg" alt="Client Result 18" class="h-[150px] object-contain rounded-2xl shadow-lg border border-slate-800">
+                    <img src="images/19.jpg.jpeg" alt="Client Result 19" class="h-[150px] object-contain rounded-2xl shadow-lg border border-slate-800">
+                    <img src="images/20.jpg.jpeg" alt="Client Result 20" class="h-[150px] object-contain rounded-2xl shadow-lg border border-slate-800">
+                </div>
+            </div>
+        </div>
+
+    </section>
+
     <!-- Results Screenshots & Client Feedback -->
     <!-- <section class="section-light py-20 border-t border-gray-200 dark:border-accent/10">
         <div class="container mx-auto px-4 max-w-6xl text-center">
@@ -970,7 +1051,7 @@
     <!-- </section>  --> 
 
     <!-- About Us / Agency Section -->
-    <section class="section-dark py-20 border-t border-slate-200 dark:border-slate-800 relative">
+    <section class="section-dark py-12 border-t border-slate-200 dark:border-slate-800 relative">
         <div class="container mx-auto px-4 max-w-6xl">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
 
@@ -1088,7 +1169,7 @@
     </section>
 
     <!-- Offer & Deliverables (Free Marketing Audit) -->
-    <section class="section-light py-20 border-t border-gray-200 dark:border-accent/10">
+    <section class="section-light py-12 border-t border-gray-200 dark:border-accent/10">
         <div class="container mx-auto px-4 max-w-4xl text-center">
             <h2 class="text-4xl md:text-5xl font-black mb-6">
                 <i class="fa-solid fa-gift text-accent mr-2"></i> मोफत Marketing Audit
@@ -1136,7 +1217,7 @@
     </section>
 
     <!-- FAQ Section -->
-    <section class="section-light py-20 border-t border-gray-200 dark:border-accent/10">
+    <section class="section-light py-12 border-t border-gray-200 dark:border-accent/10">
         <div class="container mx-auto px-4 max-w-4xl">
             <div class="compare-header text-center mb-12">
                 <h2 class="text-3xl md:text-5xl font-black mb-4"><i class="fa-solid fa-circle-question text-accent mr-2"></i> वारंवार विचारले जाणारे प्रश्न</h2>
@@ -1158,12 +1239,12 @@
                         </span>
                     </summary>
                     <p class="mt-4 leading-relaxed text-gray-700 dark:text-gray-300 font-medium pl-6 border-l-2 border-accent">
-                        साधारण ₹10,000+ Monthly Budget पासून सुरुवात करता येते.
+                        तुमच्या business आणि goal नुसार budget ठरते. मोठा budget compulsory नाही — efficiency वर focus असतो.
                     </p>
                 </details>
 
                 <!-- FAQ 2 -->
-                <details class="group bg-white dark:bg-[#150207] border border-gray-200 dark:border-accent/10 rounded-2xl p-5 [&_summary::-webkit-details-marker]:hidden transition-all duration-300 shadow-sm">
+                <!-- <details class="group bg-white dark:bg-[#150207] border border-gray-200 dark:border-accent/10 rounded-2xl p-5 [&_summary::-webkit-details-marker]:hidden transition-all duration-300 shadow-sm">
                     <summary class="flex items-center justify-between cursor-pointer focus:outline-none">
                         <h3 class="text-base md:text-lg font-bold theme-text-main flex items-center gap-2">
                             <span class="text-accent text-xl font-bold">Q.</span>
@@ -1178,7 +1259,7 @@
                     <p class="mt-4 leading-relaxed text-gray-700 dark:text-gray-300 font-medium pl-6 border-l-2 border-accent">
                         साधारण 7 ते 30 दिवसांत Results दिसू लागतात.
                     </p>
-                </details>
+                </details> -->
 
                 <!-- FAQ 3 -->
                 <details class="group bg-white dark:bg-[#150207] border border-gray-200 dark:border-accent/10 rounded-2xl p-5 [&_summary::-webkit-details-marker]:hidden transition-all duration-300 shadow-sm">
@@ -1215,12 +1296,44 @@
                         होय, Meta Pixel आणि Conversion API Setup पूर्णपणे करतो.
                     </p>
                 </details>
+
+
+                 <details class="group bg-white dark:bg-[#150207] border border-gray-200 dark:border-accent/10 rounded-2xl p-5 [&_summary::-webkit-details-marker]:hidden transition-all duration-300 shadow-sm">
+                    <summary class="flex items-center justify-between cursor-pointer focus:outline-none">
+                        <h3 class="text-base md:text-lg font-bold theme-text-main flex items-center gap-2">
+                            <span class="text-accent text-xl font-bold">Q.</span>
+                            मला Facebook किंवा Ads चा अनुभव हवा का?
+                        </h3>
+                        <span class="ml-1.5 shrink-0 rounded-full bg-accent/5 p-1.5 text-accent group-open:rotate-180 transition-transform duration-300">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </span>
+                    </summary>
+                    <p class="mt-4 leading-relaxed text-gray-700 dark:text-gray-300 font-medium pl-6 border-l-2 border-accent">
+अजिबात नाही. तुम्ही complete beginner असलात तरी service start करू शकता.                    </p>
+                </details>
+
+
+                <details class="group bg-white dark:bg-[#150207] border border-gray-200 dark:border-accent/10 rounded-2xl p-5 [&_summary::-webkit-details-marker]:hidden transition-all duration-300 shadow-sm">
+                    <summary class="flex items-center justify-between cursor-pointer focus:outline-none">
+                        <h3 class="text-base md:text-lg font-bold theme-text-main flex items-center gap-2">
+                            <span class="text-accent text-xl font-bold">Q.</span>
+माझ्याकडे आधी ads चालू असतील तर?                        </h3>
+                        <span class="ml-1.5 shrink-0 rounded-full bg-accent/5 p-1.5 text-accent group-open:rotate-180 transition-transform duration-300">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </span>
+                    </summary>
+                    <p class="mt-4 leading-relaxed text-gray-700 dark:text-gray-300 font-medium pl-6 border-l-2 border-accent">
+Perfect. आम्ही तुमचे existing ads & funnel audit करून improve करतो.                </details>
             </div>
         </div>
     </section>
 
     <!-- Bottom CTA Area -->
-    <section id="booking" class="always-dark py-20 w-full border-t border-slate-800 relative">
+    <section id="booking" class="always-dark py-12 w-full border-t border-slate-800 relative">
         <div class="container mx-auto px-4 max-w-4xl text-center">
             
             <div class="inline-flex items-center gap-2 bg-accent/10 border border-accent/20 px-4 py-1.5 rounded-full mb-6">
@@ -1263,7 +1376,7 @@
             <!-- Email and Quote Block -->
             <div class="mt-16 pt-8 border-t border-white/10 max-w-2xl mx-auto">
                 <p class="text-gray-400 text-sm font-bold mb-6">
-                    Email: <a href="mailto:mediaaddictstudio5@gmail.com" class="text-accent hover:underline">mediaaddictstudio5@gmail.com</a>
+                    Email: <a href="mailto:info.mediaaddictstudio@gmail.com" class="text-accent hover:underline">info.mediaaddictstudio@gmail.com</a>
                 </p>
                 <div class="relative bg-white/5 p-6 rounded-2xl border border-white/5">
                     <span class="absolute -top-3.5 left-6 bg-accent text-white px-3 py-0.5 rounded-full text-xs font-bold uppercase tracking-wider">Quote</span>
